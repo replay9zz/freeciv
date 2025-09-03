@@ -1,0 +1,26 @@
+app-id: org.freeciv.ruledit
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: freeciv-ruledit
+rename-icon: freeciv-ruledit
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --filesystem=~/.freeciv:create
+modules:
+  - name: freeciv-ruledit
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --with-qtver=qt6
+      - --enable-ruledit
+      - --disable-client
+      - --disable-server
+      - --disable-fcmp
+      - --disable-freeciv-manual
+    sources:
+      - type: dir
+        path: ..

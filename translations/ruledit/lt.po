@@ -1,0 +1,858 @@
+# Andrius Štikonas <stikonas@gmail.com>, 2006-2009.
+# Mindaugas Šukys  <ateivis@gmail.com>, 2006-2007.
+# Tomas Kuliavas <tokul@users.sourceforge.net>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: freeciv\n"
+"Report-Msgid-Bugs-To: https://redmine.freeciv.org/projects/freeciv\n"
+"POT-Creation-Date: 2024-04-19 02:51+0300\n"
+"PO-Revision-Date: 2010-10-11 20:07+0100\n"
+"Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
+"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
+"Language: lt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || "
+"n%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
+
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:127
+#: tools/ruledit/helpeditor.cpp:53 tools/ruledit/req_vec_fix.cpp:190
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
+msgid "Close"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:58 tools/ruledit/edit_impr.cpp:101
+#: tools/ruledit/edit_tech.cpp:71 tools/ruledit/edit_terrain.cpp:79
+#: tools/ruledit/edit_utype.cpp:132
+msgid "Graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:67 tools/ruledit/edit_impr.cpp:110
+#: tools/ruledit/edit_tech.cpp:80 tools/ruledit/edit_terrain.cpp:88
+#: tools/ruledit/edit_utype.cpp:141
+msgid "Alt graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:76
+msgid "Activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:85
+msgid "Alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:94
+msgid "Second alt activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:103
+msgid "Removal activity graphics tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:112
+msgid "Alt removal activity gfx tag"
+msgstr ""
+
+#: tools/ruledit/edit_extra.cpp:121 tools/ruledit/edit_terrain.cpp:97
+msgid "Native to"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:62 tools/ruledit/edit_utype.cpp:71
+msgid "Build Cost"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:73
+msgid "Upkeep"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:83
+msgid "Genus"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:119
+msgid "Sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:128
+msgid "Alt sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_impr.cpp:137 tools/ruledit/edit_tech.cpp:89
+msgid "Helptext"
+msgstr ""
+
+#: tools/ruledit/edit_tech.cpp:60
+msgid "Cost"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:59
+msgid "Move Cost"
+msgstr ""
+
+#: tools/ruledit/edit_terrain.cpp:69
+msgid "Defense Bonus %"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:56
+msgid "Requirement"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:82
+msgid "Attack Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:92
+msgid "Defense Strength"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:102
+msgid "Hitpoints"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:112
+msgid "Firepower"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:122
+msgid "Move Rate"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:150
+msgid "Move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:160
+msgid "Alt move sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:170
+msgid "Fight sound tag"
+msgstr ""
+
+#: tools/ruledit/edit_utype.cpp:180
+msgid "Alt fight sound tag"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:77 tools/ruledit/req_edit.cpp:66
+msgid "Type:"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:91 tools/ruledit/req_edit.cpp:84
+msgid "Value:"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:115 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/tab_extras.cpp:91 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
+msgid "Requirements"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:119
+msgid "Add Effect"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:123
+msgid "Delete Effect"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:200
+#, c-format
+msgid "Effect #%d: %s"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:303
+#, c-format
+msgid "%s effect #%d"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but can't find
+#. * any.
+#: tools/ruledit/req_vec_fix.cpp:79
+msgid "No problem found"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but
+#. * don't know how to solve it.
+#: tools/ruledit/req_vec_fix.cpp:92
+#, c-format
+msgid "Don't know how to fix %s: %s"
+msgstr ""
+
+#. TRANS: Apply the selected requirement vector problem fix.
+#: tools/ruledit/req_vec_fix.cpp:120
+msgid "Accept selected solution"
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:158
+msgid "Requirement problem"
+msgstr ""
+
+#. TRANS: Button text in the requirement vector fixer dialog. Cancels all
+#. * changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:168
+msgid "Undo all"
+msgstr ""
+
+#. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
+#. * all changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:171
+msgid ""
+"Undo all accepted solutions since you started or since last time you ordered "
+"all accepted changes done."
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Button text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:179
+msgid "Do accepted changes"
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Tool tip text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:182
+msgid ""
+"Perform all the changes you have accepted to the ruleset item. You can then "
+"fix the current issue by hand and come back here to find the next issue."
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:278
+msgid "Unable to apply solution"
+msgstr ""
+
+#. TRANS: requirement vector fix failed to apply
+#: tools/ruledit/req_vec_fix.cpp:282
+msgid "Failed to apply solution %1 for %2 to %3."
+msgstr ""
+
+#: tools/ruledit/requirers_dlg.cpp:57
+#, c-format
+msgid "Removing %s"
+msgstr ""
+
+#. TRANS: %s could be any of a number of ruleset items (e.g., tech,
+#. * unit type, ...
+#: tools/ruledit/requirers_dlg.cpp:72
+#, c-format
+msgid "Needed by %s"
+msgstr ""
+
+#. TRANS: 'Failed to load comments-x.y.txt' where x.y is
+#. * freeciv version
+#: tools/ruledit/ruledit.cpp:123
+#, c-format
+msgid "Failed to load %s."
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:158
+#, fuzzy
+msgid "Print a summary of the options"
+msgstr "  -h, --help\t\tAtspausdinti parinkčių santrauką\n"
+
+#: tools/ruledit/ruledit.cpp:160
+#, fuzzy
+msgid "Print the version number"
+msgstr "  -v, --version\t\tAtspausdinti versijos numerį\n"
+
+#. TRANS: argument (don't translate) VALUE (translate)
+#: tools/ruledit/ruledit.cpp:163
+msgid "ruleset RULESET"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:164
+msgid "Ruleset to use as the starting point."
+msgstr ""
+
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:168
+msgid "Fatal [SIGNAL]"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:169
+msgid "Raise a signal on failed assertion"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:183
+msgid "Can only edit one ruleset at a time.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:194
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:196
+msgid "Try using --help.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:203
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Neatpažintas parametras: „%s“\n"
+
+#: tools/ruledit/ruledit_qt.cpp:126
+msgid "built in Qt6 mode."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:128
+msgid "built in Qt5 mode."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:135
+#, c-format
+msgid ""
+"%s%s\n"
+"commit: %s\n"
+"%s"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:150
+msgid "Give ruleset to use as starting point."
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:158
+#, fuzzy
+msgid "Start editing"
+msgstr "Nuostatos, priklausomos nuo situacijos"
+
+#: tools/ruledit/ruledit_qt.cpp:169
+msgid "Misc"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:171
+#, fuzzy
+msgid "Tech"
+msgstr "_Technologijos"
+
+#: tools/ruledit/ruledit_qt.cpp:173
+msgid "Buildings"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:175
+msgid "Units"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:177
+msgid "Achievements"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:179
+msgid "Goods"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:181
+msgid "Governments"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:183
+msgid "Enablers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:185
+msgid "Extras"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:187
+msgid "Terrains"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:189
+msgid "Multipliers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:191
+msgid "Nations"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:200
+#, fuzzy
+msgid "Welcome to freeciv-ruledit"
+msgstr "Sveiki atvykę į Freeciv"
+
+#: tools/ruledit/ruledit_qt.cpp:247
+msgid "Old ruleset to a new format"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:250
+#, fuzzy
+msgid "Ruleset loaded"
+msgstr "Dykuma"
+
+#: tools/ruledit/ruledit_qt.cpp:273
+msgid "Ruleset loading failed!"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:451
+#, fuzzy
+msgid "Freeciv Ruleset Editor"
+msgstr "Freeciv serverių sąrašas"
+
+#: tools/ruledit/ruledit_qt.cpp:484
+msgid "Are you sure you want to quit?"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:488
+msgid "Quit?"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:66 tools/ruledit/tab_building.cpp:67
+#: tools/ruledit/tab_extras.cpp:68 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_gov.cpp:65 tools/ruledit/tab_multiplier.cpp:65
+#: tools/ruledit/tab_tech.cpp:67 tools/ruledit/tab_terrains.cpp:68
+#: tools/ruledit/tab_unit.cpp:66
+#, fuzzy
+msgid "Rule Name"
+msgstr "Žaidėjo vardas :"
+
+#: tools/ruledit/tab_achievement.cpp:69 tools/ruledit/tab_achievement.cpp:79
+#: tools/ruledit/tab_achievement.cpp:144 tools/ruledit/tab_achievement.cpp:145
+#: tools/ruledit/tab_building.cpp:70 tools/ruledit/tab_building.cpp:80
+#: tools/ruledit/tab_building.cpp:151 tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_enablers.cpp:131 tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_extras.cpp:71 tools/ruledit/tab_extras.cpp:81
+#: tools/ruledit/tab_extras.cpp:153 tools/ruledit/tab_extras.cpp:154
+#: tools/ruledit/tab_good.cpp:69 tools/ruledit/tab_good.cpp:79
+#: tools/ruledit/tab_good.cpp:147 tools/ruledit/tab_good.cpp:148
+#: tools/ruledit/tab_gov.cpp:68 tools/ruledit/tab_gov.cpp:78
+#: tools/ruledit/tab_gov.cpp:146 tools/ruledit/tab_gov.cpp:147
+#: tools/ruledit/tab_multiplier.cpp:68 tools/ruledit/tab_multiplier.cpp:78
+#: tools/ruledit/tab_multiplier.cpp:142 tools/ruledit/tab_multiplier.cpp:143
+#: tools/ruledit/tab_tech.cpp:70 tools/ruledit/tab_tech.cpp:80
+#: tools/ruledit/tab_tech.cpp:236 tools/ruledit/tab_tech.cpp:237
+#: tools/ruledit/tab_terrains.cpp:71 tools/ruledit/tab_terrains.cpp:81
+#: tools/ruledit/tab_terrains.cpp:149 tools/ruledit/tab_terrains.cpp:150
+#: tools/ruledit/tab_unit.cpp:69 tools/ruledit/tab_unit.cpp:79
+#: tools/ruledit/tab_unit.cpp:146 tools/ruledit/tab_unit.cpp:147
+msgid "None"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:74 tools/ruledit/tab_building.cpp:75
+#: tools/ruledit/tab_extras.cpp:76 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_gov.cpp:73 tools/ruledit/tab_multiplier.cpp:73
+#: tools/ruledit/tab_tech.cpp:75 tools/ruledit/tab_terrains.cpp:76
+#: tools/ruledit/tab_unit.cpp:74
+msgid "Name"
+msgstr "Vardas"
+
+#: tools/ruledit/tab_achievement.cpp:85 tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_extras.cpp:95 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_gov.cpp:88 tools/ruledit/tab_tech.cpp:116
+#: tools/ruledit/tab_terrains.cpp:91 tools/ruledit/tab_unit.cpp:89
+msgid "Effects"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:89
+msgid "Add Achievement"
+msgstr ""
+
+#: tools/ruledit/tab_achievement.cpp:94
+#, fuzzy
+msgid "Remove this Achievement"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_achievement.cpp:179
+msgid "An achievement with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:86 tools/ruledit/tab_extras.cpp:87
+#: tools/ruledit/tab_tech.cpp:86 tools/ruledit/tab_terrains.cpp:87
+#: tools/ruledit/tab_unit.cpp:85
+msgid "Edit Values"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:98
+msgid "Add Building"
+msgstr ""
+
+#: tools/ruledit/tab_building.cpp:103
+#, fuzzy
+msgid "Remove this Building"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_building.cpp:186
+msgid "A building with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:113
+msgid "Type"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:137
+msgid "Actor Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:144
+msgid "Target Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:151
+msgid "Add Enabler"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:156
+#, fuzzy
+msgid "Remove this Enabler"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_enablers.cpp:165 tools/ruledit/tab_enablers.cpp:236
+#: tools/ruledit/tab_enablers.cpp:248
+msgid "Enabler Issues"
+msgstr ""
+
+#. TRANS: Fix an error in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:227
+msgid "Repair Enabler"
+msgstr ""
+
+#. TRANS: Fix a non error issue in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:232
+msgid "Improve Enabler"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:389
+msgid "Enabler (target)"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:400
+msgid "Enabler (actor)"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:419
+#, c-format
+msgid "action enabler for %s"
+msgstr ""
+
+#: tools/ruledit/tab_extras.cpp:99
+msgid "Add Extra"
+msgstr ""
+
+#: tools/ruledit/tab_extras.cpp:104
+#, fuzzy
+msgid "Remove this Extra"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_extras.cpp:188
+msgid "An extra with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:93
+msgid "Add Good"
+msgstr ""
+
+#: tools/ruledit/tab_good.cpp:98
+#, fuzzy
+msgid "Remove this Good"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_good.cpp:182
+msgid "A good with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Add Government"
+msgstr ""
+
+#: tools/ruledit/tab_gov.cpp:97
+#, fuzzy
+msgid "Remove this Government"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_gov.cpp:181
+msgid "A government with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:73
+#, fuzzy
+msgid "Ruleset name"
+msgstr "Dykuma"
+
+#: tools/ruledit/tab_misc.cpp:78
+#, fuzzy
+msgid "Ruleset version"
+msgstr "(beta versija)"
+
+#: tools/ruledit/tab_misc.cpp:83
+#, fuzzy
+msgid "Save to directory"
+msgstr "Išsaugo žaidimą į failą."
+
+#: tools/ruledit/tab_misc.cpp:105
+#, c-format
+msgid ""
+"If you want to be able to load the ruleset directly to freeciv, place it as "
+"a subdirectory under %s%s%s\n"
+"Use server command \"/rulesetdir <subdirectory>\" to load it to freeciv."
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:114
+msgid "Version suffix to directory name"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:119
+#, fuzzy
+msgid "Save now"
+msgstr "Žaisti _scenarijų"
+
+#: tools/ruledit/tab_misc.cpp:123
+msgid "Description from file"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:130
+msgid "Description file"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:136
+msgid "Sanity check rules"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:140
+msgid "Always active Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:143
+msgid "All Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:150
+msgid "?stat:Terrains"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:154
+msgid "?stat:Resources"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:158
+#, fuzzy
+msgid "?stat:Tech Classes"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:162
+#, fuzzy
+msgid "?stat:Techs"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:166
+msgid "?stat:Unit Classes"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:170
+msgid "?stat:Unit Types"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:174
+#, fuzzy
+msgid "?stat:Enablers"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:178
+msgid "?stat:Buildings"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:182
+msgid "?stat:Nations"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:186
+msgid "?stat:Styles"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:190
+msgid "?stat:Specialists"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:194
+msgid "?stat:Governments"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:198
+msgid "?stat:Disasters"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:202
+msgid "?stat:Achievements"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:206
+msgid "?stat:Extras"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:210
+msgid "?stat:Bases"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:214
+msgid "?stat:Roads"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:218
+#, fuzzy
+msgid "?stat:Goods"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:222
+msgid "?stat:Multipliers"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:226
+#, fuzzy
+msgid "?stat:Effects"
+msgstr "_Technologijos"
+
+#: tools/ruledit/tab_misc.cpp:234
+msgid "Refresh Stats"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:312
+#, fuzzy
+msgid "Ruleset saved"
+msgstr "Dykuma"
+
+#: tools/ruledit/tab_misc.cpp:458
+msgid "Always active"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:479
+msgid "Sanity Check"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:486
+msgid "Sanity check failed!"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:488
+msgid "Sanity check success"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:497
+msgid "All effects"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:88
+msgid "Add Multiplier"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:93
+#, fuzzy
+msgid "Remove this Multiplier"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_multiplier.cpp:177
+msgid "A multiplier with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:50
+msgid "Use nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_nation.cpp:54
+msgid "Nationlist"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:90
+msgid "Req1"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:99
+msgid "Req2"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:107
+msgid "Root Req"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:120
+msgid "Add tech"
+msgstr ""
+
+#: tools/ruledit/tab_tech.cpp:125
+#, fuzzy
+msgid "Remove this tech"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_tech.cpp:204
+msgid "Never"
+msgstr "Niekada"
+
+#: tools/ruledit/tab_tech.cpp:361
+msgid "A tech with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_terrains.cpp:95
+msgid "Add Terrain"
+msgstr ""
+
+#: tools/ruledit/tab_terrains.cpp:100
+#, fuzzy
+msgid "Remove this Terrain"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_terrains.cpp:184
+msgid "A terrain with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:93
+msgid "Add Unit"
+msgstr ""
+
+#: tools/ruledit/tab_unit.cpp:98
+#, fuzzy
+msgid "Remove this Unit"
+msgstr "Nustatyti serverio parinktį."
+
+#: tools/ruledit/tab_unit.cpp:181
+msgid "A unit type with that rule name already exists!"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:102
+msgid "Range:"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:311
+msgid "Allows"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:313
+#: tools/ruledit/req_edit.cpp:361
+msgid "Prevents"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:127
+msgid "Add Requirement"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:131
+msgid "Delete Requirement"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:162
+#, c-format
+msgid "%s prevents"
+msgstr ""
+
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:375
+msgid "Effect"
+msgstr ""
+
+#: tools/ruledit/validity.c:132
+#, c-format
+msgid "%s action enabler"
+msgstr ""
+
+#: tools/ruledit/validity.c:154
+#, fuzzy
+msgid "Music Style"
+msgstr "Miesto stilius:"
+
+#. TRANS: e.g. "Advance clause"
+#: tools/ruledit/validity.c:167
+#, c-format
+msgid "%s clause"
+msgstr ""
+
+#: tools/ruledit/validity.c:306
+msgid "Conflicting extra"
+msgstr ""
+
+#: tools/ruledit/validity.c:309
+msgid "Hidden extra"
+msgstr ""

@@ -1,0 +1,27 @@
+app-id: org.freeciv.qt
+runtime: org.kde.Platform
+runtime-version: '6.7'
+sdk: org.kde.Sdk
+command: freeciv-qt
+rename-icon: freeciv-client
+finish-args:
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --filesystem=~/.freeciv:create
+modules:
+  - name: freeciv-qt
+    buildsystem: autotools
+    no-autogen: true
+    builddir: true
+    config-opts:
+      - --with-qtver=qt6
+      - --enable-client=qt
+      - --disable-fcmp
+      - --disable-ruledit
+      - --disable-freeciv-manual
+    sources:
+      - type: dir
+        path: ..
