@@ -60,6 +60,22 @@ void luaconsole_append(const struct ft_color color,
     }
   }
 
+#ifdef ENABLE_LUAREMOTE
+  /* plain_text を nc にミラー（1行として返す） */
+  if (luaremote_current_ostream && plain_text[0] != '\0') {
+    size_t n = strlen(plain_text);
+    char *buf = malloc(n + 2);
+    if (buf) {
+      memcpy(buf, plain_text, n);
+      buf[n] = '\n';
+      buf[n+1] = '\0';
+      luaremote_mirror_console_line(buf);
+      free(buf);
+    }
+  }
+#endif
+
+
   real_luaconsole_append(plain_text, tags);
   text_tag_list_destroy(tags);
 }
@@ -76,25 +92,25 @@ void luaconsole_vprintf(const struct ft_color color,
   fc_vsnprintf(featured_text, sizeof(featured_text), format, args);
   luaconsole_append(color, featured_text);
 
-#ifdef ENABLE_LUAREMOTE
-  if (luaremote_current_ostream) {
-    va_list copy;
-    va_copy(copy, args);
-    int n = vsnprintf(NULL, 0, format, copy);
-    va_end(copy);
-    if (n >= 0) {
-      char *buf = malloc((size_t)n + 2);
-      if (buf) {
-        va_copy(copy, args);
-        vsnprintf(buf, (size_t)n + 1, format, copy);
-        va_end(copy);
-        buf[n] = '\n'; buf[n+1] = '\0';
-        luaremote_mirror_console_line(buf);
-        free(buf);
-      }
-    }
-  }
-#endif
+// #ifdef ENABLE_LUAREMOTE
+//   if (luaremote_current_ostream) {
+//     va_list copy;
+//     va_copy(copy, args);
+//     int n = vsnprintf(NULL, 0, format, copy);
+//     va_end(copy);
+//     if (n >= 0) {
+//       char *buf = malloc((size_t)n + 2);
+//       if (buf) {
+//         va_copy(copy, args);
+//         vsnprintf(buf, (size_t)n + 1, format, copy);
+//         va_end(copy);
+//         buf[n] = '\n'; buf[n+1] = '\0';
+//         luaremote_mirror_console_line(buf);
+//         free(buf);
+//       }
+//     }
+//   }
+// #endif
 
 }
 
@@ -121,19 +137,19 @@ void luaconsole_event(const char *plain_text,
 {
   real_luaconsole_append(plain_text, tags);
 
-#ifdef ENABLE_LUAREMOTE
-  if (luaremote_current_ostream && plain_text) {
-    /* tags は無視してとにかくプレーンテキストを流す（まずは簡単に） */
-    size_t n = strlen(plain_text);
-    char *buf = malloc(n + 2);
-    if (buf) {
-      memcpy(buf, plain_text, n);
-      buf[n] = '\n'; buf[n+1] = '\0';
-      luaremote_mirror_console_line(buf);
-      free(buf);
-    }
-  }
-#endif
+// #ifdef ENABLE_LUAREMOTE
+//   if (luaremote_current_ostream && plain_text) {
+//     /* tags は無視してとにかくプレーンテキストを流す（まずは簡単に） */
+//     size_t n = strlen(plain_text);
+//     char *buf = malloc(n + 2);
+//     if (buf) {
+//       memcpy(buf, plain_text, n);
+//       buf[n] = '\n'; buf[n+1] = '\0';
+//       luaremote_mirror_console_line(buf);
+//       free(buf);
+//     }
+//   }
+// #endif
 
 }
 

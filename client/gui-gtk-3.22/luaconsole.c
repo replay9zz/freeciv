@@ -574,21 +574,19 @@ static GMutex luaremote_output_mutex;
 static GSocketService *g_luaremote_service = NULL;  /* ← これを追加 */
 
 /* luaremote_mirror_console_line を置き換え */
+#ifdef ENABLE_LUAREMOTE
 void luaremote_mirror_console_line(const char *text)
 {
-  /* デバッグ出力 */
-  fprintf(stderr, "DEBUG: mirror_console_line called with: %s\n", text ? text : "(null)");
-  
+  fprintf(stderr, "%s\n", text ? text : "(null)");
+  fflush(stderr);
   if (luaremote_current_ostream && text) {
-    g_mutex_lock(&luaremote_output_mutex);
-    if (!luaremote_output_buffer) {
-      luaremote_output_buffer = g_string_new(NULL);
-    }
-    g_string_append(luaremote_output_buffer, text);
-    fprintf(stderr, "DEBUG: buffer now contains: %s\n", luaremote_output_buffer->str);
-    g_mutex_unlock(&luaremote_output_mutex);
+    g_output_stream_write(luaremote_current_ostream, text, strlen(text), NULL, NULL);
+    g_output_stream_flush(luaremote_current_ostream, NULL, NULL);
   }
 }
+
+#endif /* ENABLE_LUAREMOTE */
+
 
 /* luaremote_begin_capture はそのまま */
 void luaremote_begin_capture(GOutputStream *ostream)
@@ -609,57 +607,60 @@ void luaremote_end_capture(void)
 }
 
 /* 新規追加：同期実行用の構造体 */
-struct _LuaRemoteSyncEval {
+struct _LuaRemoteEval {
   char *code;
-  GString *result;
-  gboolean done;
-  GMutex mutex;
-  GCond cond;
+#ifdef ENABLE_LUAREMOTE
+  GOutputStream *ostream;
+#endif
 };
 
-/* 新規追加：メインスレッドで実行 */
-static gboolean luaremote_sync_eval_idle(gpointer user_data)
+
+
+
+static gboolean luaremote_eval_idle_cb(gpointer user_data)
 {
-  struct _LuaRemoteSyncEval *sync = user_data;
-  
-  /* 出力バッファをクリア */
-  g_mutex_lock(&luaremote_output_mutex);
-  if (luaremote_output_buffer) {
-    g_string_truncate(luaremote_output_buffer, 0);
-  } else {
-    luaremote_output_buffer = g_string_new(NULL);
+  struct _LuaRemoteEval *payload = (struct _LuaRemoteEval *)user_data;
+
+  if (payload && payload->code && payload->code[0] != '\0') {
+    /* 任意：送られた行を GUI の Lua Console に表示 */
+    luaconsole_printf(ftc_luaconsole_input, "(remote)> %s", payload->code);
+
+#ifdef ENABLE_LUAREMOTE
+    /* nc へもミラー開始（GUI 側の出力があればミラーされる） */
+    luaremote_begin_capture(payload->ostream);
+    /* 必要なら begin/end のデバッグを残す */
+    /* luaremote_mirror_console_line("(eval begin)\n"); */
+#endif
+
+    script_client_do_string(payload->code);
+
+#ifdef ENABLE_LUAREMOTE
+    /* luaremote_mirror_console_line("(eval end)\n"); */
+    luaremote_end_capture();
+#endif
   }
-  g_mutex_unlock(&luaremote_output_mutex);
-  
-  /* キャプチャ開始 - ダミーではなく、実際にバッファリングを有効にする */
-  luaremote_begin_capture((GOutputStream*)1);
-  
-  /* GUIにも表示 - これは別経路なので影響しない */
-  luaconsole_printf(ftc_luaconsole_input, "(remote)> %s", sync->code);
-  
-  /* Lua実行 */
-  script_client_do_string(sync->code);
-  
-  /* キャプチャ終了 */
-  luaremote_end_capture();
-  
-  /* 結果を取得 */
-  g_mutex_lock(&luaremote_output_mutex);
-  if (luaremote_output_buffer && luaremote_output_buffer->len > 0) {
-    sync->result = g_string_new(luaremote_output_buffer->str);
-  } else {
-    sync->result = g_string_new("(no output)\n");
+
+#ifdef ENABLE_LUAREMOTE
+  if (payload && payload->ostream) g_object_unref(payload->ostream);
+#endif
+  if (payload) {
+    g_free(payload->code);
+    g_free(payload);
   }
-  g_mutex_unlock(&luaremote_output_mutex);
-  
-  /* 完了を通知 */
-  g_mutex_lock(&sync->mutex);
-  sync->done = TRUE;
-  g_cond_signal(&sync->cond);
-  g_mutex_unlock(&sync->mutex);
-  
   return G_SOURCE_REMOVE;
 }
+
+static void luaremote_queue_eval_line(const char *line, GOutputStream *ostream)
+{
+  struct _LuaRemoteEval *payload = g_new0(struct _LuaRemoteEval, 1);
+  payload->code = g_strdup(line);
+#ifdef ENABLE_LUAREMOTE
+  if (ostream) payload->ostream = g_object_ref(ostream);
+#endif
+  g_idle_add(luaremote_eval_idle_cb, payload);
+}
+
+
 /* luaremote_incoming_cb を完全に置き換え */
 static gboolean luaremote_incoming_cb(GSocketService *service,
                                       GSocketConnection *connection,
@@ -669,75 +670,40 @@ static gboolean luaremote_incoming_cb(GSocketService *service,
   GInputStream *istream = g_io_stream_get_input_stream(G_IO_STREAM(connection));
   GDataInputStream *data_in = g_data_input_stream_new(istream);
   g_data_input_stream_set_newline_type(data_in, G_DATA_STREAM_NEWLINE_TYPE_ANY);
-  
+
   GOutputStream *ostream = g_io_stream_get_output_stream(G_IO_STREAM(connection));
-  
-  /* バナー送信 */
-  const char *banner = "LuaRemote: connected. Send Lua, one line per command.\n";
-  g_output_stream_write(ostream, banner, strlen(banner), NULL, NULL);
-  g_output_stream_flush(ostream, NULL, NULL);
-  
+
+  /* バナーは即返す */
+  {
+    const char *banner = "LuaRemote: connected. Send Lua, one line per command.\n";
+    g_output_stream_write(ostream, banner, strlen(banner), NULL, NULL);
+    g_output_stream_flush(ostream, NULL, NULL);
+  }
+
   GError *err = NULL;
   gchar *line = NULL;
-  
+
   while ((line = g_data_input_stream_read_line(data_in, NULL, NULL, &err))) {
     if (g_strcmp0(line, "quit") == 0 || g_strcmp0(line, "exit") == 0) {
       g_free(line);
       break;
     }
-    
     if (line[0] != '\0') {
-      /* エコーバック */
-      gchar *echo = g_strdup_printf(">>> %s\n", line);
-      g_output_stream_write(ostream, echo, strlen(echo), NULL, NULL);
-      g_output_stream_flush(ostream, NULL, NULL);
-      g_free(echo);
-      
-      /* 同期実行の準備 */
-      struct _LuaRemoteSyncEval sync = {0};
-      sync.code = line;
-      sync.done = FALSE;
-      g_mutex_init(&sync.mutex);
-      g_cond_init(&sync.cond);
-      
-      /* メインスレッドでLua実行 */
-      g_idle_add(luaremote_sync_eval_idle, &sync);
-      
-      /* 完了を待つ */
-      g_mutex_lock(&sync.mutex);
-      while (!sync.done) {
-        g_cond_wait(&sync.cond, &sync.mutex);
-      }
-      g_mutex_unlock(&sync.mutex);
-      
-      /* 結果を送信 */
-      if (sync.result) {
-        g_output_stream_write(ostream, sync.result->str, 
-                             sync.result->len, NULL, NULL);
-        g_output_stream_flush(ostream, NULL, NULL);
-        g_string_free(sync.result, TRUE);
-      }
-      
-      /* 完了マーカー */
-      const char *done_marker = "[done]\n";
-      g_output_stream_write(ostream, done_marker, 
-                           strlen(done_marker), NULL, NULL);
-      g_output_stream_flush(ostream, NULL, NULL);
-      
-      g_mutex_clear(&sync.mutex);
-      g_cond_clear(&sync.cond);
+      /* ★ 非同期に戻す：待たずにメインスレッドへ投げるだけ */
+      luaremote_queue_eval_line(line, ostream);
     }
     g_free(line);
   }
-  
+
   if (err) {
     log_error("LuaRemote read error: %s", err->message);
     g_clear_error(&err);
   }
-  
+
   g_object_unref(data_in);
   return TRUE;
 }
+
 
 /* 公開API：開始 */
 void luaconsole_remote_start(guint16 port)
