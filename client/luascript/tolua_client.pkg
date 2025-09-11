@@ -27,6 +27,7 @@ $#include "luascript_types.h"
 
 /* client/luascript */
 $#include "api_client_base.h"
+$#include "api_client_actions.h"
 $#include "script_client.h"
 
 /* Chat module. */
@@ -36,12 +37,25 @@ module chat {
     @ base (lua_State *L, const char *message);
 }
 
+module client {
+  bool api_client_move_dir
+    @ move_dir (lua_State *L, int unit_id, int dir8);
+  bool api_client_end_turn
+    @ end_turn (lua_State *L);
+}
+
+
+/*
 $[
 
 -- Chat module implementation.
+-- NOTE: Keep minimal embedded code to avoid generator parse issues.
+-- If you need formatted chat, reintroduce chat.msg below after build verifies.
 
-function chat.msg(fmt, ...)
-  chat.base(string.format(fmt, ...))
-end
+-- function chat.msg(fmt, ...)
+--   chat.base(string.format(fmt, ...))
+-- end
 
 $]
+*/
+
