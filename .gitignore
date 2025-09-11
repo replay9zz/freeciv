@@ -36,3 +36,5 @@
 /core
 /libtool
 /freeciv-CI.log
+
+.vscode/
