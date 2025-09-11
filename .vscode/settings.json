@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "system_error": "c",
-        "luaconsole_common.h": "c",
-        "iosfwd": "c"
-    }
-}
