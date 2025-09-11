@@ -577,7 +577,14 @@ static GSocketService *g_luaremote_service = NULL;  /* ← これを追加 */
 #ifdef ENABLE_LUAREMOTE
 void luaremote_mirror_console_line(const char *text)
 {
-  fprintf(stderr, "%s\n", text ? text : "(null)");
+  if (text) {
+    fprintf(stdout, "stdout: %s\n", text);
+    //fprintf(stderr, "stderr: %s\n", text);
+  } else {
+    fprintf(stderr, "stdout: nil\n");
+    //fprintf(stderr, "stderr: nil\n");
+  }
+  fflush(stdout);
   fflush(stderr);
   if (luaremote_current_ostream && text) {
     g_output_stream_write(luaremote_current_ostream, text, strlen(text), NULL, NULL);
