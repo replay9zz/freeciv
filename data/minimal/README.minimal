@@ -1,0 +1,21 @@
+## Minimal Ruleset Structure
+C:\PROGRAM FILES\FREECIV-3.1.5-WIN64-10-CLIENT-QT6\DATA\MINIMAL
+│  buildings.ruleset       :
+│  cities.ruleset          :
+│  effects.ruleset         :
+│  game.ruleset            :    Probably finished.
+│  governments.ruleset     :    Probably finished.
+│  nations.ruleset         :    Now creating two nations
+│  parser.lua              :    I don't know this file is needed.
+│  script.lua              :    I don't know this file is needed.
+│  styles.ruleset          :
+│  techs.ruleset           :    Finished because no researchable techs.
+│  terrain.ruleset         :
+│  units.ruleset           :
+│
+└─nations
+        barbarian.ruleset  :
+        generic.ruleset    :
+
+## Issues
+- Failed to auto-save the game. (I don't know the
