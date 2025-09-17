@@ -117,6 +117,8 @@ struct client_options
   char default_music_set_name[512];
   char default_sound_plugin_name[512];
   char default_chat_logfile[512];
+  /* Directory for client-side Lua scripts (used by helpers). */
+  char lua_scripts_dir[512];
 
   bool save_options_on_exit;
 

@@ -82,6 +82,7 @@ struct client_options gui_options = {
   .default_music_set_name = "stdmusic",
   .default_sound_plugin_name = "\0",
   .default_chat_logfile = GUI_DEFAULT_CHAT_LOGFILE,
+  .lua_scripts_dir = "\0",
 
   .save_options_on_exit = TRUE,
 
@@ -1924,6 +1925,11 @@ static struct client_option client_options[] = {
                  N_("The chat log file"),
                  N_("The name of the chat log file."),
                  COC_INTERFACE, GUI_STUB, GUI_DEFAULT_CHAT_LOGFILE, NULL, 0),
+  GEN_STR_OPTION(lua_scripts_dir,
+                 N_("Lua scripts directory"),
+                 N_("Directory path where client-side Lua scripts are stored."
+                    " Used by helper functions like client_load_script(name)."),
+                 COC_INTERFACE, GUI_STUB, "", NULL, 0),
   /* gui_gtk3/4_default_theme_name and gui_sdl2_default_theme_name are
    * different settings to avoid client crash after loading the
    * style for the other gui.  Keeps 5 different options! */

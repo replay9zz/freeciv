@@ -42,6 +42,14 @@ module client {
     @ move_dir (lua_State *L, int unit_id, int dir8);
   bool api_client_end_turn
     @ end_turn (lua_State *L);
+  bool api_client_attack_native
+    @ attack (lua_State *L, int unit_id, int nat_x, int nat_y);
+  bool api_client_attack_tile
+    @ attack_tile (lua_State *L, int unit_id, int tile_index);
+  bool api_client_attack_dir
+    @ attack_dir (lua_State *L, int unit_id, int dir8);
+  bool api_client_attack_dir_gui
+    @ attack_dir_gui (lua_State *L, int unit_id, int gui_dir8);
 }
 
 
@@ -58,4 +66,3 @@ $[
 
 $]
 */
-
