@@ -12,4 +12,5 @@ endif
 pkgsysconf_DATA = $(SERVER_CONF)
 
 EXTRA_DIST = \
-	database.lua
+	database.lua \
+	unit_vision.lua

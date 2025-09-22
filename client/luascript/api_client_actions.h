@@ -26,6 +26,15 @@ bool api_client_attack_dir_gui(struct lua_State *L, int unit_id, int gui_dir8);
 /* Orders a unit to attack a tile specified by native coordinates. */
 bool api_client_attack_native(struct lua_State *L, int unit_id, int nat_x, int nat_y);
 
+/* Returns enum known_type (as int) describing knowledge of the tile. */
+int api_client_tile_known(struct lua_State *L, int tile_index);
+
+/* Returns TRUE if the tile is seen in the given vision layer (0..V_COUNT-1). */
+bool api_client_tile_seen(struct lua_State *L, int tile_index, int vlayer);
+
+/* Returns the squared vision radius for the given unit. */
+int api_client_unit_vision_radius_sq(struct lua_State *L, int unit_id);
+
 #ifdef __cplusplus
 }
 #endif

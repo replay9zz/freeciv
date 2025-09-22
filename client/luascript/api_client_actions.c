@@ -11,8 +11,10 @@
 
 /* common */
 #include "map.h"          /* enum direction8, DIR8_MAGIC_MAX */
+#include "tile.h"         /* tile_get_known */
 #include "player.h"
 #include "unit.h"
+#include "vision.h"       /* enum vision_layer, V_COUNT */
 
 /* client */
 #include "client_main.h"  /* client_player(), send_turn_done() */
@@ -146,4 +148,56 @@ bool api_client_attack_native(lua_State *L, int unit_id, int nat_x, int nat_y)
 
   request_do_action(ACTION_ATTACK, unit_id, tile_index(ptile), 0, "");
   return TRUE;
+}
+
+/*************************************************************************//**
+  Return the knowledge state for the given tile as enum known_type value.
+*****************************************************************************/
+int api_client_tile_known(lua_State *L, int tile_index)
+{
+  LUASCRIPT_CHECK_STATE(L, TILE_UNKNOWN);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", TILE_UNKNOWN);
+
+  struct tile *ptile = index_to_tile(&(wld.map), tile_index);
+  LUASCRIPT_CHECK_ARG(L, ptile != NULL, 2, "invalid tile index", TILE_UNKNOWN);
+
+  return (int)tile_get_known(ptile, pplayer);
+}
+
+/*************************************************************************//**
+  Return TRUE if the tile is currently seen in the requested vision layer.
+*****************************************************************************/
+bool api_client_tile_seen(lua_State *L, int tile_index, int vlayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  LUASCRIPT_CHECK_ARG(L, vlayer >= 0 && vlayer < V_COUNT, 3,
+                      "invalid vision layer", FALSE);
+
+  struct tile *ptile = index_to_tile(&(wld.map), tile_index);
+  LUASCRIPT_CHECK_ARG(L, ptile != NULL, 2, "invalid tile index", FALSE);
+
+  return client_map_is_known_and_seen(ptile, pplayer,
+                                      (enum vision_layer)vlayer);
+}
+
+/*************************************************************************//**
+  Return the squared vision radius for the given unit (main vision layer).
+*****************************************************************************/
+int api_client_unit_vision_radius_sq(lua_State *L, int unit_id)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", -1);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", -1);
+
+  return unit_type_get(punit)->vision_radius_sq;
 }

@@ -24,6 +24,8 @@ extern "C" {
 struct ft_color;
 struct text_tag_list;
 
+typedef void (*luaconsole_output_hook_fn)(const char *line, void *userdata);
+
 void luaconsole_append(const struct ft_color color,
                        const char *featured_text);
 void luaconsole_vprintf(const struct ft_color color,
@@ -34,18 +36,9 @@ void luaconsole_printf(const struct ft_color color,
 void luaconsole_event(const char *plain_text,
                       const struct text_tag_list *tags);
 void luaconsole_welcome_message(void);
-
-/* === add: mirror console output to nc when ENABLE_LUAREMOTE === */
-/* luaconsole_common.h の関数プロトタイプ群の直後あたりに追加 */
-#ifdef ENABLE_LUAREMOTE
-typedef struct _GOutputStream GOutputStream;  /* 前方宣言 */
-extern GOutputStream *luaremote_current_ostream;
-void luaremote_begin_capture(GOutputStream *ostream);
-void luaremote_end_capture(void);
-void luaremote_mirror_console_line(const char *text);
-#endif
-
-/* === end add === */
+void luaconsole_set_output_hook(luaconsole_output_hook_fn hook,
+                                void *userdata);
+void luaconsole_clear_output_hook(void);
 
 #ifdef __cplusplus
 }

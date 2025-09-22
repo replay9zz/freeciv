@@ -31,6 +31,29 @@
 /* client */
 #include "luaconsole_common.h"
 
+static luaconsole_output_hook_fn output_hook = NULL;
+static void *output_hook_data = NULL;
+
+static void luaconsole_emit_hook(const char *line)
+{
+  if (output_hook && line) {
+    output_hook(line, output_hook_data);
+  }
+}
+
+void luaconsole_set_output_hook(luaconsole_output_hook_fn hook,
+                                void *userdata)
+{
+  output_hook = hook;
+  output_hook_data = userdata;
+}
+
+void luaconsole_clear_output_hook(void)
+{
+  output_hook = NULL;
+  output_hook_data = NULL;
+}
+
 /*************************************************************************//**
   Add a line of text to the output ("chatline") window, like puts() would
   do it in the console.
@@ -60,21 +83,7 @@ void luaconsole_append(const struct ft_color color,
     }
   }
 
-#ifdef ENABLE_LUAREMOTE
-  /* plain_text を nc にミラー（1行として返す） */
-  if (luaremote_current_ostream && plain_text[0] != '\0') {
-    size_t n = strlen(plain_text);
-    char *buf = malloc(n + 2);
-    if (buf) {
-      memcpy(buf, plain_text, n);
-      buf[n] = '\n';
-      buf[n+1] = '\0';
-      luaremote_mirror_console_line(buf);
-      free(buf);
-    }
-  }
-#endif
-
+  luaconsole_emit_hook(plain_text);
 
   real_luaconsole_append(plain_text, tags);
   text_tag_list_destroy(tags);
@@ -135,21 +144,8 @@ void luaconsole_printf(const struct ft_color color,
 void luaconsole_event(const char *plain_text,
                       const struct text_tag_list *tags)
 {
+  luaconsole_emit_hook(plain_text);
   real_luaconsole_append(plain_text, tags);
-
-// #ifdef ENABLE_LUAREMOTE
-//   if (luaremote_current_ostream && plain_text) {
-//     /* tags は無視してとにかくプレーンテキストを流す（まずは簡単に） */
-//     size_t n = strlen(plain_text);
-//     char *buf = malloc(n + 2);
-//     if (buf) {
-//       memcpy(buf, plain_text, n);
-//       buf[n] = '\n'; buf[n+1] = '\0';
-//       luaremote_mirror_console_line(buf);
-//       free(buf);
-//     }
-//   }
-// #endif
 
 }
 
