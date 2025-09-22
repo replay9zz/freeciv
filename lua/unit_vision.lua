@@ -11,6 +11,12 @@
 local V_LAYER_MAIN = 0
 local MAX_VLAYER = 2
 
+local SCRIPT_PATH = '/lua/unit_vision.lua'
+
+local function trace(fn_name)
+  log.normal('Execute %s:%s', SCRIPT_PATH, fn_name)
+end
+
 local function resolve_unit(player_id, unit_id)
   local player = find.player(player_id)
   if not player then
@@ -36,6 +42,7 @@ local function clamp_layer(layer)
 end
 
 function unit_vision_radius(player_id, unit_id)
+  trace('unit_vision_radius')
   local unit = resolve_unit(player_id, unit_id)
   local radius_sq = client.unit_vision_radius_sq(unit.id)
   if radius_sq < 0 then
@@ -45,8 +52,9 @@ function unit_vision_radius(player_id, unit_id)
 end
 
 function list_visible_tiles(player_id, unit_id, layer)
+  trace('list_visible_tiles')
   local unit = resolve_unit(player_id, unit_id)
-  local host_tile = unit:tile()
+  local host_tile = unit.tile
   if not host_tile then
     return ''
   end
@@ -61,7 +69,7 @@ function list_visible_tiles(player_id, unit_id, layer)
 
   for tile in host_tile:circle_iterate(radius_sq) do
     if tile and client.tile_seen(tile.id, vlayer) then
-      tiles[#tiles + 1] = string.format('%d,%d', tile:nat_x(), tile:nat_y())
+      tiles[#tiles + 1] = string.format('%d,%d', tile.nat_x, tile.nat_y)
     end
   end
 
