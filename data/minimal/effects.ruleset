@@ -45,9 +45,9 @@ value   = 1
 type    = "Max_Rates"
 value   = 40
 
-[effect_base_size]
+[effect_base_size] ;This value is size of population in the city.
 type    = "Size_Adj"
-value   = 1
+value   = 8
 
 [effect_tech_cost_base]
 type    = "Tech_Cost_Factor"
