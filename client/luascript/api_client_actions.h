@@ -11,6 +11,9 @@ struct lua_State;
 /* Moves a unit one step in map-direction dir8 (0..7). */
 bool api_client_move_dir(struct lua_State *L, int unit_id, int dir8);
 
+/* Orders a unit to build/join a city on its current tile. */
+bool api_client_build_city(struct lua_State *L, int unit_id);
+
 /* Ends the current player's turn. */
 bool api_client_end_turn(struct lua_State *L);
 

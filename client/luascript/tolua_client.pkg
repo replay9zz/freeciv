@@ -40,6 +40,8 @@ module chat {
 module client {
   bool api_client_move_dir
     @ move_dir (lua_State *L, int unit_id, int dir8);
+  bool api_client_build_city
+    @ build_city (lua_State *L, int unit_id);
   bool api_client_end_turn
     @ end_turn (lua_State *L);
   bool api_client_attack_native

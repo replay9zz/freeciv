@@ -46,6 +46,24 @@ bool api_client_move_dir(lua_State *L, int unit_id, int dir8)
 }
 
 /*************************************************************************//**
+  Order a unit to build or add to a city on its current tile.
+*****************************************************************************/
+bool api_client_build_city(lua_State *L, int unit_id)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  /* Validate player context */
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  request_unit_build_city(punit);
+  return TRUE;
+}
+
+/*************************************************************************//**
   End current player's turn.
 *****************************************************************************/
 bool api_client_end_turn(lua_State *L)
