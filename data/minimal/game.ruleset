@@ -471,21 +471,21 @@ actor_reqs =
 ;      "Activity",      "Fortified",    "Local", FALSE
 ;    }
 
-;[actionenabler_capture]
-;action = "Capture Units"
-;actor_reqs    =
-;    { "type",   "name", "range", "present"
-;      "UnitFlag", "Capturer", "Local", TRUE
-;      "DiplRel", "War", "Local", TRUE
-;      "MinMoveFrags", "1", "Local", TRUE
-;      "DiplRel", "Foreign", "Local", TRUE
-;    }
-;target_reqs    =
-;    { "type",      "name",         "range", "present"
-;      "UnitFlag",  "Capturable",   "Local", TRUE
-;      "UnitState", "Transporting", "Local", FALSE
-;      "CityTile",  "Center",       "Local", FALSE
-;    }
+[actionenabler_capture]
+action = "Capture Units"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Capturer", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Capturable",   "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", FALSE
+    }
 
 [actionenabler_attack_from_native]
 action = "Attack"
@@ -496,6 +496,50 @@ actor_reqs    =
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", TRUE
       "DiplRel",       "War",          "Local", TRUE
+    }
+
+[actionenabler_build_city_pioneer]
+action = "Found City"
+actor_reqs    =
+    { "type",   "name", "range"
+      "UnitFlag", "Cities", "Local"
+      "UnitState", "OnLivableTile", "Local"
+      "MinMoveFrags", "1", "Local"
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
+      "TerrainFlag","NoCities","Local",FALSE
+    }
+
+[actionenabler_build_city_domestic]
+action = "Found City"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Cities", "Local", TRUE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",        "name",     "range", "present"
+      "CityTile",    "Claimed",  "Local", TRUE
+      "TerrainFlag", "NoCities", "Local", FALSE
+    }
+
+[actionenabler_conquer_city_native]
+action = "Conquer City"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
     }
 
 [borders]

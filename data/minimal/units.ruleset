@@ -18,6 +18,7 @@ flags =
     _("Capturer"),   _("Can capture some enemy units.")
     _("Capturable"), _("Can be captured by some enemy units.")
     _("Cant_Fortify")
+    _("Cities"), _("Can build city.")
   }
 
 ; Names for custom unit class flags. There can be up to 12 of these.
@@ -114,7 +115,13 @@ veteran_move_bonus = 0
 name          = _("Generic")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = "CanFortify"
+flags         = ""
+
+;[unitclass_special]
+;name          = _("Special")
+;min_speed     = 1
+;hp_loss_pct   = 0
+;flags         = "CanFortify", "CanOccupyCity"
 
 [unitclass_ship]
 name          = _("Generic Ship")
@@ -369,10 +376,41 @@ flags         = ""
 ;
 ; */ <-- avoid gettext warnings
 
-
-; This unit is far stronger than the others.
 [unit_generic]
 name          = _("Generic")
+class         = "Generic"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.warriors"
+graphic_alt   = "-"
+sound_move    = "m_warriors"
+sound_move_alt = "m_generic"
+sound_fight   = "f_warriors"
+sound_fight_alt = "f_generic"
+build_cost    = 10
+pop_cost      = 0
+attack        = 1
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+tp_defense    = "Alight"
+flags         = "Settlers"
+roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
+helptext      = _("\
+  This is the only land unit type you can build.\
+")
+
+; This unit is far stronger than the others.
+[unit_special]
+name          = _("Special")
 class         = "Generic"
 tech_req      = "None"
 obsolete_by   = "None"
@@ -382,7 +420,7 @@ sound_move    = "m_leader"
 sound_move_alt = "m_generic"
 sound_fight   = "f_leader"
 sound_fight_alt = "f_generic"
-build_cost    = 10000 ; 0-???
+build_cost    = 10 ; 0-???
 pop_cost      = 0
 attack        = 255 ; 0-255
 defense       = 255 ; 0-255
@@ -429,7 +467,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-cargo         = "Generic"
+cargo         = "Generic" 
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
@@ -464,7 +502,9 @@ uk_shield     = 0
 uk_food       = 1
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers"
+;flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
+;                "Cities", "Fortress"
+flags         = "Settlers", "Cities"                
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0
