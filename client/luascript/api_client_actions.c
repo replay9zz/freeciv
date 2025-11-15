@@ -20,6 +20,8 @@
 #include "client_main.h"  /* client_player(), send_turn_done() */
 #include "control.h"      /* request_move_unit_direction(), request_do_action */
 #include "climap.h"       /* gui_to_map_dir */
+#include "citydlg_common.h" /* city_change_production */
+#include "requirements.h" /* universal_by_rule_name */
 
 #include "api_client_actions.h"
 
@@ -60,6 +62,53 @@ bool api_client_build_city(lua_State *L, int unit_id)
   LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
 
   request_unit_build_city(punit);
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Found a city and supply the city name explicitly (no popup).
+*****************************************************************************/
+bool api_client_found_city(lua_State *L, int unit_id, const char *city_name)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  struct tile *ptile = unit_tile(punit);
+  LUASCRIPT_CHECK(L, ptile != NULL, "unit not on map", FALSE);
+
+  if (tile_city(ptile)) {
+    request_do_action(ACTION_JOIN_CITY, punit->id, tile_city(ptile)->id, 0, "");
+  } else {
+    const char *lname = city_name ? city_name : "";
+    request_do_action(ACTION_FOUND_CITY, punit->id, tile_index(ptile), 0, lname);
+  }
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Change the current production of a city.
+*****************************************************************************/
+bool api_client_set_city_production(lua_State *L, int city_id,
+                                    const char *kind, const char *rule_name)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  const char *type = (kind && kind[0]) ? kind : "UnitType";
+  LUASCRIPT_CHECK_ARG(L, rule_name != NULL && rule_name[0] != '\0', 3,
+                      "missing rule name", FALSE);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", FALSE);
+
+  struct universal target = universal_by_rule_name(type, rule_name);
+  LUASCRIPT_CHECK(L, target.kind != VUT_NONE, "invalid production target", FALSE);
+
+  city_change_production(pcity, &target);
   return TRUE;
 }
 

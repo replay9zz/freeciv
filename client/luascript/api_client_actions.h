@@ -14,6 +14,13 @@ bool api_client_move_dir(struct lua_State *L, int unit_id, int dir8);
 /* Orders a unit to build/join a city on its current tile. */
 bool api_client_build_city(struct lua_State *L, int unit_id);
 
+/* Found a city with an explicit name (bypasses the popup). */
+bool api_client_found_city(struct lua_State *L, int unit_id, const char *city_name);
+
+/* Change the current production of a city (kind defaults to UnitType). */
+bool api_client_set_city_production(struct lua_State *L, int city_id,
+                                    const char *kind, const char *rule_name);
+
 /* Ends the current player's turn. */
 bool api_client_end_turn(struct lua_State *L);
 
