@@ -15,12 +15,23 @@ format_version=20
 flags =
   { "name", "helptxt"
     _("Fortress"), _("Can build Forts and Fortresses.")
+    _("Transform")
+    _("AirAttacker"), _("Very bad at attacking AEGIS.")
+    _("Submarine"), _("Attack value halved when attacking Destroyer.")
+    _("Unbribable")
+    _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
+    _("HelpWonder")
     _("Capturer"),   _("Can capture some enemy units.")
     _("Capturable"), _("Can be captured by some enemy units.")
+    _("Bombarder")
+    _("Cities")
+    _("AddToCity")
+    _("Nuclear")
+    _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
+    _("Marines"), _("Can launch attack from non-native tiles.")
     _("Cant_Fortify")
-    _("Cities"), _("Can build city.")
+    _("OneAttack")
   }
-
 ; Names for custom unit class flags. There can be up to 12 of these.
 ; name          = rule name; In some circumstances user may see this
 ;                 as part of some sentences, so try to make it descriptive
@@ -387,7 +398,7 @@ sound_move    = "m_warriors"
 sound_move_alt = "m_generic"
 sound_fight   = "f_warriors"
 sound_fight_alt = "f_generic"
-build_cost    = 10
+build_cost    = 1000
 pop_cost      = 0
 attack        = 1
 defense       = 1
@@ -512,3 +523,50 @@ veteran_work_raise_chance = 0
 veteran_power_fact = 100
 veteran_move_bonus = 0
 roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit", "DefendOk", "DefendOkStartUnit", "FirstBuild"
+
+[unit_explorer]
+name          = _("Explorer")
+class         = "Generic"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.explorer"
+graphic_alt   = "-"
+sound_move    = "m_explorer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_explorer"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 6
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+tp_defense    = "Alight"
+flags         = "IgTer", "IgZOC", "NonMil", "HasNoZOC", "Cant_Fortify"
+roles         = "Explorer", "ExplorerStartUnit"
+helptext      = _("\
+Explorers are brave individuals that are very useful for\
+ mapping unknown territory.\
+"), _("\
+Explorers can also perform some actions in another player's city:\
+"), _("\
+ - \"Establish Embassy\": This action always succeeds, and gives\
+ permanent contact with the city's owner, as well as intelligence\
+ on their tax rates and technology. Each player you have an embassy\
+ with that knows a technology reduces that technology's research\
+ cost to you.\
+"), _("\
+ - \"Investigate City\": Your unit attempts to report detailed\
+ information about the city: its status, what buildings and units are\
+ within, and what it is currently producing.\
+ The unit is not consumed by this action.\
+")
+
