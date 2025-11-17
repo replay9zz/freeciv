@@ -62,3 +62,12 @@ value   = 1
 [effect_city_build_slots_basic]
 type    = "City_Build_Slots"
 value   = 1
+
+[effect_scientist]
+type    = "Specialist_Output"
+value   = 2
+reqs    =
+    { "type", "name", "range"
+      "Specialist", "Scientist", "Local"
+      "OutputType", "Science", "Local"
+    }

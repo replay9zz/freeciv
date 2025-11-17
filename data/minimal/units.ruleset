@@ -40,9 +40,18 @@ flags =
 ;                 with this flag (optional)
 class_flags =
   { "name", "helptxt"
-    _("CanFortify")
+    _("Airliftable"), _("Can be airlifted from a suitable city.")
+    _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Missile")
+    _("CanPillage")
+    _("CanFortify"),
+    ; /* xgettext:no-c-format */
+                     _("Gets a 50% defensive bonus while in cities.")
+    _("Barracks"), _("Benefits from barracks")
+    _("Ground"), _("Ground units")
+    _("Aerial"), _("Aerial units")
   }
+
 
 [veteran_system]
 ; What are the names of the levels?
@@ -139,6 +148,56 @@ name          = _("Generic Ship")
 min_speed     = 1
 hp_loss_pct   = 0
 flags         = ""
+
+
+; ===== Begin section based on civ2civ3 units.ruleset =====
+
+
+
+
+[unitclass_land]
+; /* TRANS: Unit class: used adjectivally */
+name          = _("?unitclass:Land")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
+                "CollectRansom", "ZOC", "CanFortify", "CanPillage",
+                "TerrainDefense", "Airliftable", "NonNatBombardTgt",
+                "Barracks", "Ground"
+
+[unitclass_land_small]
+; /* TRANS: Unit class: used adjectivally */
+name          = _("?unitclass:Small Land")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows", "BuildAnywhere", "CollectRansom",
+                "ZOC", "CanFortify", "TerrainDefense", "DoesntOccupyTile",
+                "Airliftable", "NonNatBombardTgt", "Barracks", "Ground"
+
+[unitclass_land_big]
+; /* TRANS: Unit class: used adjectivally */
+name          = _("?unitclass:Big Land")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
+                "CollectRansom","ZOC", "CanFortify", "KillCitizen", "Airliftable",
+                "NonNatBombardTgt", "Barracks", "Ground"
+
+[unitclass_merchant]
+; /* TRANS: Unit class: used adjectivally */
+name          = _("?unitclass:Merchant")
+min_speed     = 1
+hp_loss_pct   = 0
+flags         = "BuildAnywhere", "DoesntOccupyTile",
+                "ZOC", "TerrainDefense", "TerrainSpeed", "Airliftable",
+                "NonNatBombardTgt", "Barracks", "Ground"
+
+
+
+
+; ===== End section based on civ2civ3 units.ruleset =====
+
+
 
 ; /* <-- avoid gettext warnings
 ;
@@ -420,10 +479,10 @@ helptext      = _("\
 ")
 
 ; This unit is far stronger than the others.
-[unit_special]
-name          = _("Special")
+[unit_thanos]
+name          = _("Thanos")
 class         = "Generic"
-tech_req      = "None"
+tech_req      = "Magic"
 obsolete_by   = "None"
 graphic       = "u.leader"
 graphic_alt   = "-"
@@ -431,7 +490,7 @@ sound_move    = "m_leader"
 sound_move_alt = "m_generic"
 sound_fight   = "f_leader"
 sound_fight_alt = "f_generic"
-build_cost    = 10 ; 0-???
+build_cost    = 30 ; 0-???
 pop_cost      = 0
 attack        = 255 ; 0-255
 defense       = 255 ; 0-255
@@ -447,7 +506,7 @@ uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
 flags         = "Capturer", "Fortress"
-roles         = "DefendOk", "DefendOkStartUnit", "FirstBuild"
+roles         = "DefendOk"
 helptext      = _("\
   This is the only land unit type you can build.\
 ")

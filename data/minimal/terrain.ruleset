@@ -562,6 +562,41 @@ act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
 
+[extra_road]
+name           = _("Road")
+category       = "Infra"
+causes         = "Road"
+rmcauses       = "Pillage"
+graphic        = "road.road"
+graphic_alt    = "-"
+activity_gfx   = "unit.road"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present", "quiet"
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      ;"UnitClass", "Sea", "Local", FALSE, TRUE 
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+    }
+build_time     = 0
+removal_time   = 0
+native_to      = "Land", "Small Land", "Big Land", "Merchant"
+;hidden_by      = "Railroad", "Maglev"
+;bridged_over   = "River"
+flags          = "NativeTile", "AlwaysOnCityCenter"
+helptext       = _("\
+Roads allow your land units to move more quickly, and allow wheeled\
+ Big Land units such as Chariots and Catapults to travel through\
+ otherwise difficult terrain (Mountains, Jungle, and Swamp).\
+"), _("\
+On some terrains, roads also provide a trade bonus.\
+"), _("\
+Building roads on river tiles requires knowledge of Bridge Building.\
+ City center tiles automatically get roads (even on a river tile).\
+")
+
 ; /* <-- avoid gettext warnings
 ;
 ; Base types:
@@ -651,15 +686,28 @@ rmact_gfx_alt  = "-"
 ;
 ; */ <-- avoid gettext warnings
 
-; [road_groad]
-; extra          = "Generic Road"
-; move_cost      = 1
-; food_incr      = 0
-; shield_incr    = 0
-; trade_incr     = 0
-; food_bonus     = 0
-; shield_bonus   = 0
-; trade_bonus    = 0
-; compat_special = "None"
-; gui_type       = "Other"
-; flags          = ""
+;[road_groad]
+;extra          = "Generic Road"
+;move_cost      = 1
+;food_incr      = 0
+;shield_incr    = 0
+;trade_incr     = 0
+;food_bonus     = 0
+;shield_bonus   = 0
+;trade_bonus    = 0
+;compat_special = "None"
+;gui_type       = "Other"
+;flags          = ""
+
+; The City tiles are automatically regarded as having roads.
+[road_road]
+extra          = "Road"
+move_cost      = 2
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 1
+food_bonus     = 0
+shield_bonus   = 0
+trade_bonus    = 0
+compat_special = "Road"
+gui_type       = "Road"

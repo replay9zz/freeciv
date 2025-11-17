@@ -47,6 +47,22 @@ reqs            =
 ; No requirements
     }
 
+[specialist_scientist]
+name            = _("Scientists")
+rule_name       = "scientist"
+short_name	= _("?Scientist:S")
+graphic         = "specialist.scientist"
+reqs		=
+    { "type", "name", "range"
+; Nothing
+    }
+helptext        = _("\
+Each scientist adds two points to your empire's research output \
+per turn, increasing to three once any player has built Darwin's \
+Voyage.\
+")
+
+
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.
 angry_citizens = TRUE           ; set to FALSE to disable angry citizens
@@ -60,7 +76,7 @@ changable_tax = TRUE            ; set to FALSE to disallow changing of tax rates
 
 vision_reveal_tiles = TRUE     ; civ1 & 2 default FALSE
 
-pop_report_zeroes    = 1        ; Population in reports in tens
+pop_report_zeroes    = 4        ; Population in reports in tens of thousands
 
 [citizen]
 nationality          = FALSE    ; account for the nationality of the citizens

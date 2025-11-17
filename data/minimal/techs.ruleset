@@ -116,3 +116,13 @@ flags       = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
 helptext    = _("This is the only technology you can research.")
+
+; This tech requires to produce unit_special.
+[advance_magic]
+name        = _("Magic")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = ""
+graphic_alt = "-"
+helptext    = _("Magic will do something special.")
