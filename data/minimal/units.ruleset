@@ -482,7 +482,7 @@ helptext      = _("\
 [unit_thanos]
 name          = _("Thanos")
 class         = "Generic"
-tech_req      = "Magic"
+tech_req      = "The Blip"
 obsolete_by   = "None"
 graphic       = "u.leader"
 graphic_alt   = "-"

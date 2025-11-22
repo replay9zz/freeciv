@@ -118,11 +118,11 @@ graphic_alt = "-"
 helptext    = _("This is the only technology you can research.")
 
 ; This tech requires to produce unit_special.
-[advance_magic]
-name        = _("Magic")
+[advance_blip]
+name        = _("The Blip")
 req1        = "None"
 req2        = "None"
 flags       = ""
 graphic     = ""
 graphic_alt = "-"
-helptext    = _("Magic will do something special.")
+helptext    = _("The Blip will do something special.")
