@@ -2,9 +2,10 @@
 ; description.
 
 [datafile]
-description="<modpack> governments data for Freeciv"
-options="+Freeciv-3.1-ruleset"
-format_version=20
+description = "<modpack> governments data for Freeciv"
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
+
 
 [governments]
 during_revolution = "Anarchy"

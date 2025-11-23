@@ -2,9 +2,9 @@
 ; description.
 
 [datafile]
-description="<modpack> unit_type data for Freeciv"
-options="+Freeciv-3.1-ruleset"
-format_version=20
+description = "<modpack>   data for Freeciv"
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
 
 [control]
 ; Names for custom unit type flags. There can be up to 45 of these.
@@ -472,7 +472,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 tp_defense    = "Alight"
-flags         = "Settlers"
+flags         = "Workers"
 roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
 helptext      = _("\
   This is the only land unit type you can build.\
@@ -574,7 +574,7 @@ uk_gold       = 0
 tp_defense    = "Alight"
 ;flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "AddToCity",
 ;                "Cities", "Fortress"
-flags         = "Settlers", "Cities"                
+flags         = "Workers", "Cities"                
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_base_raise_chance = 0

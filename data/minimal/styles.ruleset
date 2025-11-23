@@ -2,9 +2,9 @@
 ; description.
 
 [datafile]
-description="<modpack> nation theme data for Freeciv"
-options="+Freeciv-3.1-ruleset"
-format_version=20
+description = "<modpack> nation theme data for Freeciv"
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
 
 ; /* <-- avoid gettext warnings
 ;

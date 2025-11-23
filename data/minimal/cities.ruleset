@@ -2,13 +2,13 @@
 ; description.
 
 [datafile]
-description="<modpack> cities data for Freeciv"
-options="+Freeciv-3.1-ruleset"
-format_version=20
+description = "<modpack> cities data for Freeciv"
+options = "+Freeciv-ruleset-3.4-Devel-2025.Jan.17"
+format_version = 50
 
 ; /* <-- avoid gettext warnings 
 ;
-; A specialist is a city citizen who is not a tile worker.  Usually the
+; A specialist is a city citizen who is not a tile worker. Usually the
 ; player can control what specialist each citizen is, so long as the
 ; requirements for that specialist are met.
 ;
