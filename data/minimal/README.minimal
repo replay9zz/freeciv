@@ -1,0 +1,20 @@
+## Minimal Ruleset Structure
+./freeciv/data/minimal
+│  actions.ruleset         :
+|  buildings.ruleset       :
+│  cities.ruleset          :
+│  effects.ruleset         :
+│  game.ruleset            :
+│  governments.ruleset     :
+│  nations.ruleset         :
+│  parser.lua              :
+│  script.lua              :
+│  styles.ruleset          :
+│  techs.ruleset           :
+│  terrain.ruleset         :
+│  units.ruleset           :
+│
+└─nations
+        barbarian.ruleset  :
+        nation1.ruleset    :
+        nation2.ruleset    :
