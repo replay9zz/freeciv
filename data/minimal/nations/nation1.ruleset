@@ -9,7 +9,7 @@ leaders = { "name", "sex"
  "Nation1", "male"
 }
 
-flag     = "aborigines"
+flag     = "hacker"
 flag_alt = "-"
 style    = "Generic"
 
