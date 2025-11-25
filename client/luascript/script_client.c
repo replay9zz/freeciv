@@ -17,11 +17,13 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 /* dependencies/lua */
 #include "lua.h"
 #include "lualib.h"
+#include "lauxlib.h"
 
 /* dependencies/tolua */
 #include "tolua.h"
@@ -31,6 +33,7 @@
 
 /* common */
 #include "featured_text.h"
+#include "support.h"
 
 /* common/scriptcore */
 #include "api_game_specenum.h"
@@ -42,6 +45,7 @@
 
 /* client */
 #include "luaconsole_common.h"
+#include "options.h"
 
 /* client/luascript */
 #include <tolua_client_gen.h> /* <> so looked from the build directory first. */
@@ -73,14 +77,65 @@ static void script_client_output(struct fc_lua *fcl, enum log_level level,
 
 static void script_client_signal_create(void);
 
+static int l_client_get_scripts_dir(lua_State *L);
+static int l_client_load_script(lua_State *L);
+
 /*************************************************************************//**
   Parse and execute the script in str
 *****************************************************************************/
 bool script_client_do_string(const char *str)
 {
-  int status = luascript_do_string(main_fcl, str, "cmd");
+  lua_State *L;
+  int base;
+  int status;
 
-  return (status == 0);
+  if (main_fcl == NULL || main_fcl->state == NULL || str == NULL) {
+    return FALSE;
+  }
+
+  L = main_fcl->state;
+  base = lua_gettop(L);
+
+  status = luaL_loadbuffer(L, str, strlen(str), "cmd");
+  if (status != LUA_OK) {
+    const char *err = lua_tostring(L, -1);
+
+    luascript_log(main_fcl, LOG_ERROR, "%s",
+                  err != NULL ? err : "lua: unknown load error");
+    lua_settop(L, base);
+    return FALSE;
+  }
+
+  status = luascript_call(main_fcl, 0, LUA_MULTRET, str);
+  if (status != LUA_OK) {
+    lua_settop(L, base);
+    return FALSE;
+  }
+
+  {
+    int top = lua_gettop(L);
+    int nret = top - base;
+
+    if (nret > 0) {
+      int idx;
+
+      for (idx = 0; idx < nret; idx++) {
+        int stack_index = base + 1 + idx;
+        const char *repr = luaL_tolstring(L, stack_index, NULL);
+
+        if (repr == NULL) {
+          repr = "(non-printable)";
+        }
+
+        luaconsole_printf(ftc_luaconsole_normal, "__RET__[%d] %s",
+                          idx + 1, repr);
+        lua_pop(L, 1);
+      }
+    }
+  }
+
+  lua_settop(L, base);
+  return TRUE;
 }
 
 /*************************************************************************//**
@@ -194,6 +249,12 @@ static void script_client_code_save(struct section_file *file)
 *****************************************************************************/
 bool script_client_init(void)
 {
+  const char *env_scripts_dir = getenv("FREECIV_LUA_SCRIPTS_DIR");
+
+  if (env_scripts_dir != NULL && env_scripts_dir[0] != '\0') {
+    sz_strlcpy(gui_options.lua_scripts_dir, env_scripts_dir);
+  }
+
   if (main_fcl != NULL) {
     fc_assert_ret_val(main_fcl->state != NULL, FALSE);
 
@@ -209,7 +270,7 @@ bool script_client_init(void)
   }
 
   tolua_common_a_open(main_fcl->state);
-  api_game_specenum_open(main_fcl->state);
+  api_specenum_open(main_fcl->state);
   tolua_game_open(main_fcl->state);
   tolua_signal_open(main_fcl->state);
 
@@ -230,7 +291,62 @@ bool script_client_init(void)
   luascript_signal_init(main_fcl);
   script_client_signal_create();
 
+  lua_register(main_fcl->state, "client_get_scripts_dir",
+               l_client_get_scripts_dir);
+  lua_register(main_fcl->state, "client_load_script",
+               l_client_load_script);
+
   return TRUE;
+}
+
+static int l_client_get_scripts_dir(lua_State *L)
+{
+  const char *dir = gui_options.lua_scripts_dir;
+
+  if (dir == NULL || dir[0] == '\0') {
+    lua_pushliteral(L, "");
+  } else {
+    lua_pushstring(L, dir);
+  }
+  return 1;
+}
+
+static int l_client_load_script(lua_State *L)
+{
+  const char *name = luaL_checkstring(L, 1);
+  char path[1024];
+  const char *dir = gui_options.lua_scripts_dir;
+  const char *ext = ".lua";
+  size_t nlen = strlen(name);
+  bool has_ext = FALSE;
+
+  if (nlen >= 4 && 0 == fc_strcasecmp(name + (nlen - 4), ext)) {
+    has_ext = TRUE;
+  }
+
+  if (dir != NULL && dir[0] != '\0') {
+    if (has_ext) {
+      fc_snprintf(path, sizeof(path), "%s/%s", dir, name);
+    } else {
+      fc_snprintf(path, sizeof(path), "%s/%s%s", dir, name, ext);
+    }
+  } else {
+    if (has_ext) {
+      fc_strlcpy(path, name, sizeof(path));
+    } else {
+      fc_snprintf(path, sizeof(path), "%s%s", name, ext);
+    }
+  }
+
+  if (script_client_do_file(path)) {
+    lua_pushboolean(L, 1);
+    lua_pushstring(L, path);
+    return 2;
+  }
+
+  lua_pushboolean(L, 0);
+  lua_pushstring(L, path);
+  return 2;
 }
 
 /*************************************************************************//**

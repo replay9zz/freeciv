@@ -21,4 +21,10 @@ void luaconsole_dialog_done(void);
 
 void luaconsole_dialog_popdown(void);
 
+#ifdef ENABLE_LUAREMOTE
+/* Remote Lua listener control (start on UI init, stop on exit). */
+void luaconsole_remote_start(guint16 port);
+void luaconsole_remote_stop(void);
+#endif
+
 #endif  /* FC__LUACONSOLE_H */

@@ -27,6 +27,7 @@ $#include "luascript_types.h"
 
 /* client/luascript */
 $#include "api_client_base.h"
+$#include "api_client_actions.h"
 $#include "script_client.h"
 
 /* Chat module. */
@@ -36,12 +37,44 @@ module chat {
     @ base (lua_State *L, const char *message);
 }
 
+module client {
+  bool api_client_move_dir
+    @ move_dir (lua_State *L, int unit_id, int dir8);
+  bool api_client_build_city
+    @ build_city (lua_State *L, int unit_id);
+  bool api_client_found_city
+    @ found_city (lua_State *L, int unit_id, const char *city_name);
+  bool api_client_set_city_production
+    @ set_city_production (lua_State *L, int city_id, const char *kind, const char *rule_name);
+  bool api_client_end_turn
+    @ end_turn (lua_State *L);
+  bool api_client_attack_native
+    @ attack (lua_State *L, int unit_id, int nat_x, int nat_y);
+  bool api_client_attack_tile
+    @ attack_tile (lua_State *L, int unit_id, int tile_index);
+  bool api_client_attack_dir
+    @ attack_dir (lua_State *L, int unit_id, int dir8);
+  bool api_client_attack_dir_gui
+    @ attack_dir_gui (lua_State *L, int unit_id, int gui_dir8);
+  int api_client_tile_known
+    @ tile_known (lua_State *L, int tile_index);
+  bool api_client_tile_seen
+    @ tile_seen (lua_State *L, int tile_index, int vlayer);
+  int api_client_unit_vision_radius_sq
+    @ unit_vision_radius_sq (lua_State *L, int unit_id);
+}
+
+
+/*
 $[
 
 -- Chat module implementation.
+-- NOTE: Keep minimal embedded code to avoid generator parse issues.
+-- If you need formatted chat, reintroduce chat.msg below after build verifies.
 
-function chat.msg(fmt, ...)
-  chat.base(string.format(fmt, ...))
-end
+-- function chat.msg(fmt, ...)
+--   chat.base(string.format(fmt, ...))
+-- end
 
 $]
+*/

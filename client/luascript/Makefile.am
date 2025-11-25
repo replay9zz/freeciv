@@ -17,6 +17,8 @@ AM_CPPFLAGS = \
 dist_libscripting_client_la_SOURCES = \
 	api_client_base.c	\
 	api_client_base.h	\
+	api_client_actions.c	\
+	api_client_actions.h	\
 	script_client.c		\
 	script_client.h		\
 	tolua_client_gen.c	\

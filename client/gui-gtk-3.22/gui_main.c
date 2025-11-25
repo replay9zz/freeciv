@@ -1902,6 +1902,11 @@ int ui_main(int argc, char **argv)
       return EXIT_FAILURE;
     }
 
+#ifdef ENABLE_LUAREMOTE
+    /* Start LuaRemote listener for external control. */
+    luaconsole_remote_start(4444);
+#endif
+
     help_system_init();
 
     dlg_tab_provider_prepare();
@@ -2047,6 +2052,10 @@ int ui_main(int argc, char **argv)
     menus_free();
     message_buffer = NULL; /* Result of destruction of everything */
     tileset_free_tiles(tileset);
+
+#ifdef ENABLE_LUAREMOTE
+    luaconsole_remote_stop();
+#endif
   }
 
   return EXIT_SUCCESS;

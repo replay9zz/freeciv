@@ -22,18 +22,62 @@
 #include "lualib.h"
 #include "lauxlib.h"
 
+/* common */
+#include "events.h"
+
 /* utility */
 #include "support.h"
 
-/* common */
-#include "events.h"
-#include "fc_types.h"
-
-/* common/scriptcore */
-#include "api_specenum.h"
-
 #include "api_game_specenum.h"
 
+#define API_SPECENUM_INDEX_NAME(type) api_specenum_##type##_index
+#define API_SPECENUM_CREATE_TABLE(L, type, name)                             \
+  api_specenum_create_table((L), (name), API_SPECENUM_INDEX_NAME(type))
+
+/**********************************************************************//**
+  Define a the __index (table, key) -> value  metamethod
+  Return the enum value whose name is the concatenation of prefix and key.
+  The fetched value is written back to the lua table, and further accesses
+  will resolve there instead of this function.
+**************************************************************************/
+#define API_SPECENUM_DEFINE_INDEX(type_name, prefix)                      \
+  static int (API_SPECENUM_INDEX_NAME(type_name))(lua_State *L)           \
+  {                                                                       \
+    static char _buf[128];                                                \
+    const char *_key;                                                     \
+    enum type_name _value;                                                \
+    luaL_checktype(L, 1, LUA_TTABLE);                                     \
+    _key = luaL_checkstring(L, 2);                                        \
+    fc_snprintf(_buf, sizeof(_buf), prefix "%s", _key);                   \
+    _value = type_name##_by_name(_buf, strcmp);                           \
+    if (_value != type_name##_invalid()) {                                \
+      lua_pushstring(L, _key);                                            \
+      lua_pushinteger(L, _value);                                         \
+      lua_rawset(L, 1);                                                   \
+      lua_pushinteger(L, _value);                                         \
+    } else {                                                              \
+      lua_pushnil(L);                                                     \
+    }                                                                     \
+    return 1;                                                             \
+  }
+
+static void api_specenum_create_table(lua_State *L, const char *name,
+                                      lua_CFunction findex)
+{
+  lua_getglobal(L, name);
+  if (lua_isnil(L, -1)) {
+    lua_newtable(L);
+    lua_pushvalue(L, -1);
+    lua_setglobal(L, name);
+  }
+  fc_assert_ret(lua_istable(L, -1));
+  lua_newtable(L);
+  lua_pushliteral(L, "__index");
+  lua_pushcfunction(L, findex);
+  lua_rawset(L, -3);
+  lua_setmetatable(L, -2);
+  lua_pop(L, 1);
+}
 
 /**********************************************************************//**
   Define the __index function for each exported specenum type.
@@ -43,7 +87,7 @@ API_SPECENUM_DEFINE_INDEX(event_type, "E_")
 /**********************************************************************//**
   Load the specenum modules into Lua state L.
 **************************************************************************/
-int api_game_specenum_open(lua_State *L)
+int api_specenum_open(lua_State *L)
 {
   API_SPECENUM_CREATE_TABLE(L, event_type, "E");
 

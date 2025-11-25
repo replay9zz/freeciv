@@ -24,6 +24,8 @@ extern "C" {
 struct ft_color;
 struct text_tag_list;
 
+typedef void (*luaconsole_output_hook_fn)(const char *line, void *userdata);
+
 void luaconsole_append(const struct ft_color color,
                        const char *featured_text);
 void luaconsole_vprintf(const struct ft_color color,
@@ -34,6 +36,9 @@ void luaconsole_printf(const struct ft_color color,
 void luaconsole_event(const char *plain_text,
                       const struct text_tag_list *tags);
 void luaconsole_welcome_message(void);
+void luaconsole_set_output_hook(luaconsole_output_hook_fn hook,
+                                void *userdata);
+void luaconsole_clear_output_hook(void);
 
 #ifdef __cplusplus
 }

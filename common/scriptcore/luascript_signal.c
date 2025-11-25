@@ -73,10 +73,10 @@ static void signal_destroy(struct signal *psignal);
 
 /* Signal datastructure. */
 struct signal {
-  int nargs;                              /* Number of arguments to pass */
-  enum api_types *arg_types;              /* Argument types */
-  struct signal_callback_list *callbacks; /* Connected callbacks */
-  struct signal_deprecator deprecator;
+  int nargs;
+  enum api_types *arg_types;
+  struct signal_callback_list *callbacks;
+  char *depr_msg;
 };
 
 /* Signal callback datastructure. */
@@ -137,10 +137,8 @@ static struct signal *signal_new(int nargs, enum api_types *parg_types)
 
   psignal->nargs = nargs;
   psignal->arg_types = parg_types;
-  psignal->callbacks
-    = signal_callback_list_new_full(signal_callback_destroy);
-  psignal->deprecator.depr_msg = NULL;
-  psignal->deprecator.retired = NULL;
+  psignal->callbacks = signal_callback_list_new_full(signal_callback_destroy);
+  psignal->depr_msg = NULL;
 
   return psignal;
 }
@@ -153,11 +151,8 @@ static void signal_destroy(struct signal *psignal)
   if (psignal->arg_types) {
     free(psignal->arg_types);
   }
-  if (psignal->deprecator.depr_msg) {
-    free(psignal->deprecator.depr_msg);
-  }
-  if (psignal->deprecator.retired) {
-    free(psignal->deprecator.retired);
+  if (psignal->depr_msg) {
+    free(psignal->depr_msg);
   }
   signal_callback_list_destroy(psignal->callbacks);
   free(psignal);
@@ -252,9 +247,9 @@ static struct signal *luascript_signal_create_valist(struct fc_lua *fcl,
 /**********************************************************************//**
   Create a new signal type.
 **************************************************************************/
-struct signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
-                                                  const char *signal_name,
-                                                  int nargs, ...)
+signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
+                                           const char *signal_name,
+                                           int nargs, ...)
 {
   va_list args;
   struct signal *created;
@@ -264,7 +259,7 @@ struct signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
   va_end(args);
 
   if (created != NULL) {
-    return &(created->deprecator);
+    return &(created->depr_msg);
   }
 
   return NULL;
@@ -273,41 +268,26 @@ struct signal_deprecator *luascript_signal_create(struct fc_lua *fcl,
 /**********************************************************************//**
   Mark signal deprecated.
 **************************************************************************/
-void deprecate_signal(struct signal_deprecator *deprecator, char *signal_name,
-                      char *replacement, char *deprecated_since,
-                      char *retired_since)
+void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
+                      char *replacement, char *deprecated_since)
 {
   if (deprecator != NULL) {
     char buffer[1024];
-    char *deprtype = ((retired_since != NULL) ? "Retired:" : "Deprecated:");
 
     if (deprecated_since != NULL && replacement != NULL) {
-      if (retired_since != NULL) {
-        fc_snprintf(buffer, sizeof(buffer),
-                    "%s lua signal \"%s\", retired since \"%s\", "
-                    "and deprecated already since \"%s\", used. "
-                    "Use \"%s\" instead",
-                    deprtype, signal_name, retired_since, deprecated_since, replacement);
-      } else {
-        fc_snprintf(buffer, sizeof(buffer),
-                    "%s lua signal \"%s\", deprecated since \"%s\", used. "
-                    "Use \"%s\" instead",
-                    deprtype, signal_name, deprecated_since, replacement);
-      }
+      fc_snprintf(buffer, sizeof(buffer),
+                  "Deprecated: lua signal \"%s\", deprecated since \"%s\", used. "
+                  "Use \"%s\" instead", signal_name, deprecated_since, replacement);
     } else if (replacement != NULL) {
       fc_snprintf(buffer, sizeof(buffer),
-                  "%s lua signal \"%s\" used. Use \"%s\" instead",
-                  deprtype, signal_name, replacement);
+                  "Deprecated: lua signal \"%s\" used. Use \"%s\" instead",
+                  signal_name, replacement);
     } else {
       fc_snprintf(buffer, sizeof(buffer),
-                  "%s lua signal \"%s\" used.", deprtype, signal_name);
+                  "Deprecated: lua signal \"%s\" used.", signal_name);
     }
 
-    deprecator->depr_msg = fc_strdup(buffer);
-
-    if (retired_since != NULL) {
-      deprecator->retired = fc_strdup(retired_since);
-    }
+    *deprecator = fc_strdup(buffer);
   }
 }
 
@@ -324,17 +304,6 @@ void luascript_signal_callback(struct fc_lua *fcl, const char *signal_name,
   fc_assert_ret(fcl->signals != NULL);
 
   if (luascript_signal_hash_lookup(fcl->signals, signal_name, &psignal)) {
-
-    if (psignal->deprecator.depr_msg != NULL) {
-      log_deprecation("%s", psignal->deprecator.depr_msg);
-    }
-
-    if (psignal->deprecator.retired != NULL) {
-      luascript_error(fcl->state, "Signal \"%s\" has been retired.",
-                      signal_name);
-      return;
-    }
-
     /* Check for a duplicate callback */
     signal_callback_list_iterate(psignal->callbacks, pcallback) {
       if (!strcmp(pcallback->name, callback_name)) {
@@ -342,6 +311,10 @@ void luascript_signal_callback(struct fc_lua *fcl, const char *signal_name,
         break;
       }
     } signal_callback_list_iterate_end;
+
+    if (psignal->depr_msg != NULL) {
+      log_deprecation("%s", psignal->depr_msg);
+    }
 
     if (create) {
       if (pcallback_found) {

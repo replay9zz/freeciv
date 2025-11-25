@@ -16,6 +16,7 @@
 #endif
 
 #include <gdk/gdkkeysyms.h>
+#include <string.h>
 
 /* utility */
 #include "fcintl.h"
@@ -27,6 +28,7 @@
 #include "game.h"
 
 /* client */
+#include "luaconsole_common.h"
 #include "options.h"
 
 /* client/gui-gtk-3.22 */
@@ -38,6 +40,11 @@
 #include "script_client.h"
 
 #include "luaconsole.h"
+
+#ifdef ENABLE_LUAREMOTE
+#include <gio/gio.h>
+#include <glib.h>
+#endif
 
 enum luaconsole_res {
   LUACONSOLE_RES_OPEN
@@ -494,3 +501,308 @@ void real_luaconsole_append(const char *astring,
   }
   gtk_text_buffer_delete_mark(buf, mark);
 }
+
+/* ===== Remote Lua listener (optional) ================================ */
+#ifdef ENABLE_LUAREMOTE
+
+struct _LuaRemoteClientCtx {
+  GSocketConnection *connection;
+  GDataInputStream *data_in;
+  GOutputStream *ostream;
+  GAsyncQueue *queue;
+};
+
+static GSocketService *g_luaremote_service = NULL;
+static struct _LuaRemoteClientCtx *luaremote_active_ctx = NULL;
+static char luaremote_queue_done_token;
+#define LUAREMOTE_QUEUE_DONE ((gpointer)&luaremote_queue_done_token)
+
+static void luaconsole_remote_hook(const char *line, void *userdata);
+static void luaremote_begin_capture(struct _LuaRemoteClientCtx *ctx);
+static void luaremote_end_capture(void);
+static gpointer luaremote_client_thread(gpointer data);
+
+static void luaconsole_remote_hook(const char *line, void *userdata)
+{
+  if (!line || !luaremote_active_ctx || !luaremote_active_ctx->queue
+      || line[0] == '\0') {
+    return;
+  }
+
+  size_t len = strlen(line);
+  char *buf = g_malloc(len + 2);
+
+  if (!buf) {
+    return;
+  }
+
+  memcpy(buf, line, len);
+  buf[len] = '\n';
+  buf[len + 1] = '\0';
+  g_async_queue_push(luaremote_active_ctx->queue, buf);
+}
+
+static void luaremote_begin_capture(struct _LuaRemoteClientCtx *ctx)
+{
+  luaremote_active_ctx = ctx;
+}
+
+static void luaremote_end_capture(void)
+{
+  if (!luaremote_active_ctx) {
+    return;
+  }
+
+  if (luaremote_active_ctx->queue) {
+    g_async_queue_push(luaremote_active_ctx->queue, LUAREMOTE_QUEUE_DONE);
+  }
+  luaremote_active_ctx = NULL;
+}
+
+struct _LuaRemoteEval {
+  char *code;
+  struct _LuaRemoteClientCtx *ctx;
+};
+
+static gboolean luaremote_eval_idle_cb(gpointer user_data)
+{
+  struct _LuaRemoteEval *payload = (struct _LuaRemoteEval *)user_data;
+
+  if (payload && payload->code && payload->code[0] != '\0') {
+    if (payload->ctx) {
+      luaremote_begin_capture(payload->ctx);
+    }
+    luaconsole_printf(ftc_luaconsole_input, "(remote)> %s", payload->code);
+
+    script_client_do_string(payload->code);
+
+    luaremote_end_capture();
+  }
+
+  if (payload) {
+    g_free(payload->code);
+    g_free(payload);
+  }
+  return G_SOURCE_REMOVE;
+}
+
+static void luaremote_queue_eval_line(const char *line,
+                                      struct _LuaRemoteClientCtx *ctx)
+{
+  struct _LuaRemoteEval *payload = g_new0(struct _LuaRemoteEval, 1);
+  payload->code = g_strdup(line);
+  payload->ctx = ctx;
+  g_idle_add(luaremote_eval_idle_cb, payload);
+}
+
+static gpointer luaremote_client_thread(gpointer data)
+{
+  struct _LuaRemoteClientCtx *ctx = (struct _LuaRemoteClientCtx *)data;
+  GError *err = NULL;
+  gchar *line = NULL;
+  gboolean keep_running = TRUE;
+
+  {
+    const char *banner = "LuaRemote: connected. Send Lua, one line per command.\n";
+    GError *werr = NULL;
+    gsize written = 0;
+
+    if (!g_output_stream_write_all(ctx->ostream, banner, strlen(banner),
+                                   &written, NULL, &werr)) {
+      if (werr) {
+        log_debug("LuaRemote banner write failed: %s", werr->message);
+        g_error_free(werr);
+      }
+      keep_running = FALSE;
+    } else if (!g_output_stream_flush(ctx->ostream, NULL, &werr)) {
+      if (werr) {
+        log_debug("LuaRemote banner flush failed: %s", werr->message);
+        g_error_free(werr);
+      }
+      keep_running = FALSE;
+    }
+  }
+
+  while (keep_running
+         && (line = g_data_input_stream_read_line(ctx->data_in,
+                                                  NULL, NULL, &err))) {
+    if (g_strcmp0(line, "quit") == 0 || g_strcmp0(line, "exit") == 0) {
+      g_free(line);
+      break;
+    }
+
+    if (line[0] != '\0') {
+      luaremote_queue_eval_line(line, ctx);
+
+      for (;;) {
+        gpointer item = g_async_queue_pop(ctx->queue);
+        if (item == LUAREMOTE_QUEUE_DONE) {
+          break;
+        }
+
+        if (item) {
+          char *out = item;
+          GError *werr = NULL;
+          gsize written = 0;
+
+          if (!g_output_stream_write_all(ctx->ostream, out, strlen(out),
+                                         &written, NULL, &werr)) {
+            if (werr) {
+              log_debug("LuaRemote write failed: %s", werr->message);
+              g_error_free(werr);
+            }
+            g_free(out);
+            keep_running = FALSE;
+            break;
+          }
+
+          if (!g_output_stream_flush(ctx->ostream, NULL, &werr)) {
+            if (werr) {
+              log_debug("LuaRemote flush failed: %s", werr->message);
+              g_error_free(werr);
+            }
+            g_free(out);
+            keep_running = FALSE;
+            break;
+          }
+          g_free(out);
+        }
+      }
+
+      if (!keep_running) {
+        gpointer remaining;
+        while ((remaining = g_async_queue_try_pop(ctx->queue))) {
+          if (remaining == LUAREMOTE_QUEUE_DONE) {
+            break;
+          }
+          g_free(remaining);
+        }
+      }
+    }
+
+    g_free(line);
+  }
+
+  if (err) {
+    log_error("LuaRemote read error: %s", err->message);
+    g_clear_error(&err);
+  }
+
+  if (luaremote_active_ctx == ctx) {
+    luaremote_end_capture();
+  }
+
+  if (ctx->queue) {
+    gpointer leftover;
+    while ((leftover = g_async_queue_try_pop(ctx->queue))) {
+      if (leftover != LUAREMOTE_QUEUE_DONE) {
+        g_free(leftover);
+      }
+    }
+    g_async_queue_unref(ctx->queue);
+  }
+  g_object_unref(ctx->data_in);
+  g_object_unref(ctx->connection);
+  if (ctx->ostream) {
+    g_output_stream_flush(ctx->ostream, NULL, NULL);
+    g_object_unref(ctx->ostream);
+  }
+  g_free(ctx);
+  return NULL;
+}
+
+static gboolean luaremote_incoming_cb(GSocketService *service,
+                                      GSocketConnection *connection,
+                                      GObject *source_object,
+                                      gpointer user_data)
+{
+  struct _LuaRemoteClientCtx *ctx = g_new0(struct _LuaRemoteClientCtx, 1);
+  GInputStream *istream = g_io_stream_get_input_stream(G_IO_STREAM(connection));
+
+  ctx->connection = g_object_ref(connection);
+  ctx->data_in = g_data_input_stream_new(istream);
+  g_data_input_stream_set_newline_type(ctx->data_in,
+                                       G_DATA_STREAM_NEWLINE_TYPE_ANY);
+  ctx->ostream = g_io_stream_get_output_stream(G_IO_STREAM(ctx->connection));
+  if (ctx->ostream) {
+    g_object_ref(ctx->ostream);
+  }
+  ctx->queue = g_async_queue_new();
+
+  if (!ctx->ostream || !ctx->queue) {
+    log_error("LuaRemote: failed to initialize client context");
+    if (ctx->queue) {
+      g_async_queue_unref(ctx->queue);
+    }
+    if (ctx->ostream) {
+      g_object_unref(ctx->ostream);
+    }
+    g_object_unref(ctx->data_in);
+    g_object_unref(ctx->connection);
+    g_free(ctx);
+    return TRUE;
+  }
+
+  GThread *worker = g_thread_new("luaremote-client",
+                                 luaremote_client_thread, ctx);
+  if (worker) {
+    g_thread_unref(worker);
+  } else {
+    g_async_queue_unref(ctx->queue);
+    g_object_unref(ctx->data_in);
+    g_object_unref(ctx->connection);
+    g_object_unref(ctx->ostream);
+    g_free(ctx);
+  }
+  return TRUE;
+}
+
+void luaconsole_remote_start(guint16 port)
+{
+  if (g_luaremote_service != NULL) {
+    return; /* already running */
+  }
+
+  GInetAddress *addr = g_inet_address_new_from_string("127.0.0.1");
+  GSocketAddress *saddr = g_inet_socket_address_new(addr, port);
+  g_object_unref(addr);
+
+  g_luaremote_service = g_socket_service_new();
+  g_signal_connect(g_luaremote_service, "incoming",
+                   G_CALLBACK(luaremote_incoming_cb), NULL);
+
+  GError *err = NULL;
+  if (!g_socket_listener_add_address(G_SOCKET_LISTENER(g_luaremote_service),
+                                     saddr, G_SOCKET_TYPE_STREAM,
+                                     G_SOCKET_PROTOCOL_TCP,
+                                     NULL, NULL, &err)) {
+    log_error("LuaRemote listen failed on 127.0.0.1:%u: %s",
+              (unsigned)port, err ? err->message : "unknown");
+    if (err) {
+      g_error_free(err);
+    }
+    g_object_unref(saddr);
+    g_clear_object(&g_luaremote_service);
+    return;
+  }
+  g_object_unref(saddr);
+
+  g_socket_service_start(g_luaremote_service);
+  luaconsole_set_output_hook(luaconsole_remote_hook, NULL);
+  log_normal("LuaRemote listening on 127.0.0.1:%u", (unsigned)port);
+}
+
+void luaconsole_remote_stop(void)
+{
+  if (!g_luaremote_service) {
+    return;
+  }
+
+  g_socket_service_stop(g_luaremote_service);
+  g_clear_object(&g_luaremote_service);
+  luaremote_end_capture();
+  luaconsole_clear_output_hook();
+  log_normal("LuaRemote stopped");
+}
+
+#endif /* ENABLE_LUAREMOTE */
