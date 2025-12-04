@@ -16,15 +16,18 @@
 #include "map.h"          /* enum direction8, DIR8_MAGIC_MAX */
 #include "player.h"
 #include "requirements.h"
+#include "tech.h"
 #include "tile.h"
 #include "unit.h"
 #include "vision.h"       /* enum vision_layer, V_COUNT */
 
 /* client */
+#include "packhand.h"     /* request_research_goal */
 #include "citydlg_common.h"
 #include "climap.h"
 #include "client_main.h"
 #include "control.h"
+#include "packhand_gen.h"       /* dsend_packet_player_research */
 
 #include "api_client_actions.h"
 
@@ -213,6 +216,49 @@ bool api_client_attack_native(lua_State *L, int unit_id,
                       "invalid native coordinates", FALSE);
 
   request_do_action(ACTION_ATTACK, unit_id, tile_index(ptile), 0, "");
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Set current research and goal for a player by tech rule_name or translated
+  name. This mirrors GUI request_research_goal().
+*****************************************************************************/
+bool api_client_set_research(lua_State *L, int player_id,
+                             const char *tech_identifier)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG(L, tech_identifier != NULL && tech_identifier[0] != '\0',
+                      3, "missing tech identifier", FALSE);
+
+  const struct player *pplayer = player_by_number(player_id);
+  LUASCRIPT_CHECK_ARG(L, pplayer != NULL, 1, "unknown player id", FALSE);
+
+  const struct advance *padv = advance_by_rule_name(tech_identifier);
+  LUASCRIPT_CHECK_ARG(L, padv != NULL, 3, "unknown tech", FALSE);
+
+  Tech_type_id tech_id = advance_number(padv);
+  dsend_packet_player_research(&client.conn, tech_id);
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Set research goal only for a player.
+*****************************************************************************/
+bool api_client_set_research_goal(lua_State *L, int player_id,
+                                  const char *tech_identifier)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG(L, tech_identifier != NULL && tech_identifier[0] != '\0',
+                      3, "missing tech identifier", FALSE);
+
+  const struct player *pplayer = player_by_number(player_id);
+  LUASCRIPT_CHECK_ARG(L, pplayer != NULL, 1, "unknown player id", FALSE);
+
+  const struct advance *padv = advance_by_rule_name(tech_identifier);
+  LUASCRIPT_CHECK_ARG(L, padv != NULL, 3, "unknown tech", FALSE);
+
+  Tech_type_id tech_id = advance_number(padv);
+  dsend_packet_player_tech_goal(&client.conn, tech_id);
   return TRUE;
 }
 

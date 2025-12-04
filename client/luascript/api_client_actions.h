@@ -25,6 +25,10 @@ bool api_client_attack_dir_gui(struct lua_State *L, int unit_id,
                                int gui_dir8);
 bool api_client_attack_native(struct lua_State *L, int unit_id,
                               int nat_x, int nat_y);
+bool api_client_set_research(struct lua_State *L, int player_id,
+                             const char *tech_identifier);
+bool api_client_set_research_goal(struct lua_State *L, int player_id,
+                                  const char *tech_identifier);
 int api_client_tile_known(struct lua_State *L, int tile_index);
 bool api_client_tile_seen(struct lua_State *L, int tile_index,
                           int vlayer);
