@@ -6,6 +6,19 @@ description = "<modpack> buildings data for Freeciv"
 options = "+Freeciv-3.2-ruleset"
 format_version = 30
 
+[control]
+
+; Names for custom building flags. There can be up to 8 of these.
+; name          = rule name; In some circumstances user may see this
+;                 as part of some sentences, so try to make it descriptive
+;                 and sensible.
+; helptxt       = displayed in the help for building types with this flag
+;                 (optional)
+building_flags =
+  { "name", "helptxt"
+    "Barracks"
+  }
+
 ; /* <-- avoid gettext warnings
 ;
 ; Below: The individual buildings, one per section.
@@ -54,23 +67,175 @@ format_version = 30
 ;
 ; */ <-- avoid gettext warnings
 
-[building_generic]
-name		= _("Generic")
+
+; Default Ruleset
+[building_barracks]
+name		= _("Barracks")
 genus		= "Improvement"
 reqs	=
     { "type", "name", "range"
-; No requirements
     }
-graphic	= "b.barracks"
-graphic_alt	= "-"
-obsolete_by     =
+graphic         = "b.barracks_i"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+;      "Tech", "Gunpowder", "Player"
+;      "Building", "Barracks II", "City"
+;      "Building", "Barracks III", "City"
+    }
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_barracks_i"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+flags           = "Barracks"
+; /* xgettext:no-c-format */
+helptext	= _("\
+With a Barracks, each new military land unit built in a city will\
+ automatically have Veteran status, which means that its attack and\
+ defense strengths are increased by 50%.\
+"), _("\
+Also, damaged land units which stay in town for one full turn\
+ without moving are completely restored.\
+")
+
+[building_city_walls]
+name		= _("City Walls")
+genus		= "Improvement"
+flags		= "VisibleByOthers"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Masonry", "Player"
+    }
+graphic         = "b.city_walls"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 100
+build_cost	= 30
 upkeep		= 0
-sabotage	= 100
-sound		= "b_barracks"
+sabotage	= 50
+sound		= "b_city_walls"
 sound_alt	= "b_generic"
+sound_alt2      = "-"
+; /* xgettext:no-c-format */
 helptext	= _("\
-This is the only building you can build.\
+City Walls make it easier to defend a city. They add a +100% bonus to the \
+intrinsic defense strength of units within the city against land units \
+(that is a two-thirds increase for small cities, or a one-half increase \
+for cities larger than size 8), but are ineffective against airborne and \
+sea units. City Walls also prevent the loss of population which occurs \
+when a defending unit is defeated by a land unit.\
 ")
+
+[building_granary]
+name		= _("Granary")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Pottery", "Player"
+    }
+graphic         = "b.granary"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 40
+upkeep		= 1
+sabotage	= 100
+sound		= "b_granary"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+When any small city grows or shrinks, 10 food points are saved; this \
+helps cities to grow faster and more easily withstand famine. With a \
+Granary this is extended to cities of size 4 and above. (10 food points \
+is half what a small city needs to grow, but more points are needed \
+for later growth steps.)\
+"), _("\
+A Granary also halves the food wasted in cities far from your capital. \
+Together with a Courthouse it eliminates food waste.\
+"), _("\
+TIP: to maximise the speed with which a city grows, you should build a \
+Granary before it grows larger than size 4.\
+")
+
+[building_library]
+name		= _("Library")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Writing", "Player"
+    }
+graphic         = "b.library"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 60
+upkeep		= 1
+sabotage	= 100
+sound		= "b_library"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+; /* xgettext:no-c-format */
+helptext	= _("\
+Increases the science output in a city by 50%, or by 100% once the \
+Great Library has been built by any player.\
+")
+
+[building_temple]
+name		= _("Temple")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Ceremonial Burial", "Player"
+    }
+graphic         = "b.temple"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 30
+upkeep		= 1
+sabotage	= 100
+sound		= "b_temple"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Makes one unhappy citizen content. The Mysticism advance doubles \
+this effect (except under a Communist government). With both Mysticism \
+and the Temple of Artemis, 4 citizens are made content (3 under \
+Communism). Does not affect citizens made unhappy by aggression.\
+")
+
+
+
+; Custom Ruleset
+
+;[building_generic]
+;name		= _("Generic")
+;genus		= "Improvement"
+;reqs	=
+;    { "type", "name", "range"
+; No requirements
+;    }
+;graphic	= "b.barracks"
+;graphic_alt	= "-"
+;obsolete_by     =
+;    { "type", "name", "range"
+;    }
+;build_cost	= 100
+;upkeep		= 0
+;sabotage	= 100
+;sound		= "b_barracks"
+;sound_alt	= "b_generic"
+;helptext	= _("\
+;This is the only building you can build.\
+;")

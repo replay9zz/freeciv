@@ -71,3 +71,53 @@ reqs    =
       "Specialist", "Scientist", "Local"
       "OutputType", "Science", "Local"
     }
+
+[effect_barracks_veteran]
+type    = "Veteran_Build"
+value   = 1
+reqs    =
+    { "type",          "name",      "range", "present"
+      "BuildingFlag",  "Barracks",  "City",  TRUE
+      "UnitClassFlag", "Barracks",  "Local", TRUE
+      "UnitFlag",      "NonMil",    "Local", FALSE
+      "UnitFlag",      "NoVeteran", "Local", FALSE
+    }
+
+[effect_barracks_regen]
+type    = "HP_Regen"
+value   = 100
+reqs    =
+    { "type",          "name",     "range", "present"
+      "BuildingFlag",  "Barracks", "City",  TRUE
+      "UnitClassFlag", "Barracks", "Local", TRUE
+    }
+
+[effect_city_walls_defense]
+type    = "Defend_Bonus"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+      "UnitClassFlag", "Ground", "Local"
+    }
+
+[effect_city_walls_population]
+type    = "Unit_No_Lose_Pop"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+
+[effect_city_walls_visible]
+type    = "Visible_Walls"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "City Walls", "City"
+    }
+
+[effect_unhappysize]
+type    = "City_Unhappy_Size"
+value   = 4
+

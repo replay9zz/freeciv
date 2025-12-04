@@ -108,21 +108,235 @@ format_version = 30
 ;
 ; */ <-- avoid gettext warnings
 
-[advance_generic]
-name        = _("Generic Tech")
-req1        = "None"
-req2        = "None"
-flags       = ""
+; Default Ruleset
+
+
+
+[advance_alphabet]
+name     = _("Alphabet")
+req1     = "None"
+req2     = "None"
+flags    = ""
 graphic     = "a.alphabet"
 graphic_alt = "-"
-helptext    = _("This is the only technology you can research.")
+
+;[advance_astronomy]
+;name     = _("Astronomy")
+;req1     = "Mysticism"
+;req2     = "Mathematics"
+;flags    = ""
+;graphic     = "a.astronomy"
+;graphic_alt = "-"
+;helptext = _("Increases units' vision when in fortresses.")
+
+[advance_bronze_working]
+name     = _("Bronze Working")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.bronze_working"
+graphic_alt = "-"
+
+[advance_ceremonial_burial]
+name     = _("Ceremonial Burial")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.ceremonial_burial"
+graphic_alt = "-"
+
+
+
+[advance_code_of_laws]
+name     = _("Code of Laws")
+req1     = "Alphabet"
+req2     = "None"
+flags    = ""
+graphic     = "a.code_of_laws"
+graphic_alt = "-"
+
+;[advance_construction]
+;name     = _("Construction")
+;req1     = "Masonry"
+;req2     = "Iron Working"
+;flags    = ""
+;graphic     = "a.construction"
+;graphic_alt = "-"
+;helptext = _("\
+;Allows Settlers, Migrants, Workers, Engineers, and military infantry \
+;units to build forts and fortresses.\
+;")
+
+[advance_currency]
+name     = _("Currency")
+req1     = "Bronze Working"
+req2     = "None"
+flags    = ""
+graphic     = "a.currency"
+graphic_alt = "-"
+
+
+
+
+[advance_horseback_riding]
+name     = _("Horseback Riding")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.horseback_riding"
+graphic_alt = "-"
+
+
+
+[advance_iron_working]
+name     = _("Iron Working")
+req1     = "Bronze Working"
+req2     = "Warrior Code"
+flags    = ""
+graphic     = "a.iron_working"
+graphic_alt = "-"
+
+
+;[advance_literacy]
+;name     = _("Literacy")
+;req1     = "Writing"
+;req2     = "Code of Laws"
+;flags    = ""
+;graphic     = "a.literacy"
+;graphic_alt = "-"
+
+
+[advance_map_making]
+name     = _("Map Making")
+req1     = "Alphabet"
+req2     = "None"
+flags    = ""
+graphic     = "a.map_making"
+graphic_alt = "-"
+
+[advance_masonry]
+name     = _("Masonry")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.masonry"
+graphic_alt = "-"
+
+
+[advance_mathematics]
+name     = _("Mathematics")
+req1     = "Alphabet"
+req2     = "Masonry"
+flags    = ""
+graphic     = "a.mathematics"
+graphic_alt = "-"
+
+
+;[advance_monarchy]
+;name     = _("Monarchy")
+;req1     = "Ceremonial Burial"
+;req2     = "Code of Laws"
+;flags    = ""
+;graphic     = "a.monarchy"
+;graphic_alt = "-"
+
+
+
+[advance_mysticism]
+name     = _("Mysticism")
+req1     = "Ceremonial Burial"
+req2     = "None"
+flags    = ""
+graphic     = "a.mysticism"
+graphic_alt = "-"
+helptext = _("Improves the effect of Temples.")
+
+
+[advance_polytheism]
+name     = _("Polytheism")
+req1     = "Horseback Riding"
+req2     = "Ceremonial Burial"
+flags    = ""
+graphic     = "a.polytheism"
+graphic_alt = "-"
+
+[advance_pottery]
+name     = _("Pottery")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.pottery"
+graphic_alt = "-"
+
+
+;[advance_seafaring]
+;name     = _("Seafaring")
+;req1     = "Pottery"
+;req2     = "Map Making"
+;flags    = ""
+;graphic     = "a.seafaring"
+;graphic_alt = "-"
+
+
+
+[advance_the_wheel]
+name     = _("The Wheel")
+req1     = "Horseback Riding"
+req2     = "None"
+flags    = ""
+graphic     = "a.the_wheel"
+graphic_alt = "-"
+
+
+
+
+;[advance_trade]
+;name     = _("Trade")
+;req1     = "Currency"
+;req2     = "Pottery"
+;flags    = ""
+;graphic     = "a.trade"
+;graphic_alt = "-"
+;helptext = _("\
+;Halves the waste of production related to distance from the capital.\
+;")
+
+
+
+[advance_warrior_code]
+name     = _("Warrior Code")
+req1     = "None"
+req2     = "None"
+flags    = ""
+graphic     = "a.warrior_code"
+graphic_alt = "-"
+
+[advance_writing]
+name     = _("Writing")
+req1     = "Alphabet"
+req2     = "None"
+flags    = ""
+graphic     = "a.writing"
+graphic_alt = "-"
+
+
+; Custom Ruleset
+
+;[advance_generic]
+;name        = _("Generic Tech")
+;req1        = "None"
+;req2        = "None"
+;flags       = ""
+;graphic     = "a.alphabet"
+;graphic_alt = "-"
+;helptext    = _("This is the only technology you can research.")
 
 ; This tech requires to produce unit_special.
-[advance_blip]
-name        = _("The Blip")
-req1        = "None"
-req2        = "None"
-flags       = ""
-graphic     = ""
-graphic_alt = "-"
-helptext    = _("The Blip will do something special.")
+;[advance_blip]
+;name        = _("The Blip")
+;req1        = "None"
+;req2        = "None"
+;flags       = ""
+;graphic     = ""
+;graphic_alt = "-"
+;helptext    = _("The Blip will do something special.")

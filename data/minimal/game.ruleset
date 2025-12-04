@@ -63,13 +63,10 @@ global_init_buildings=""
 base_pollution   = -20
 
 ; Cost in luxuries of making one citizen happier
-happy_cost       = 0
+happy_cost       = 2
 
 ; Cost in food of upkeeping a single citizen
-food_cost        = 0
-
-unhappy_size = 0
-angry_citizens = FALSE
+food_cost        = 2
 
 ; Parameters used to generalize the calculation of city granary size:
 ;   if city_size <= num_inis:
@@ -106,25 +103,25 @@ upgrade_veteran_loss     = 0
 autoupgrade_veteran_loss = 0
 
 ; Whether player gets to select which terrain improvement to pillage.
-pillage_select           = TRUE
+pillage_select           = FALSE
 
 ; Whether one can steal a tech for which prereqs are not known
-tech_steal_allow_holes    = TRUE
+tech_steal_allow_holes    = FALSE
 ; Whether one can get a tech for which prereqs are not known via
 ; diplomatic trading
-tech_trade_allow_holes    = TRUE
+tech_trade_allow_holes    = FALSE
 ; ...and whether one can lose a tech which is prereq for another known
 ; tech via trade, if techlost_donor is nonzero
-tech_trade_loss_allow_holes = TRUE
+tech_trade_loss_allow_holes = FALSE
 ; Whether one can get a tech for which prereqs are not known via
 ; parasite effect (Great Library)
-tech_parasite_allow_holes = TRUE
+tech_parasite_allow_holes = FALSE
 ; Whether one can lose a tech which is prereq for another known tech
 ; due to negative bulbs, if techlossforgiveness allows loss
-tech_loss_allow_holes     = TRUE
+tech_loss_allow_holes     = FALSE
 
 ; Whether civil war is possible at all
-civil_war_enabled        = TRUE
+civil_war_enabled        = FALSE
 
 ; How many percents each celebrating city affects chance of civil war
 civil_war_bonus_celebrating = 0
