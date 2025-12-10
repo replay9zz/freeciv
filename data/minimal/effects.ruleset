@@ -8,6 +8,19 @@ format_version = 30
 
 ; /* <-- avoid gettext warnings
 ;
+; User effect types
+;
+; type                    = Effect type to define. Must be one of user effects.
+; ai_valued_as            = Hardcoded effect type that AI considers this to match
+;
+; */ <-- avoid gettext warnings
+
+;[ueff_1]
+;type         = "User_Effect_1"
+;ai_valued_as = ""
+
+; /* <-- avoid gettext warnings
+;
 ; Effects
 ;
 ; type                    = What the effect does. Values of multiple active effects
@@ -18,6 +31,8 @@ format_version = 30
 ; multiplier              = Name of the policy that gives a multiplier for effect's value
 ; reqs                    = Requirements for the effect to be active.
 ;                           See README.effects for help on requirements
+; comment                 = Comment for the benefit to someone examining the ruleset
+;                           Not used by freeciv any other way.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -31,7 +46,7 @@ value   = 5
 
 [effect_base_unit_upkeep]
 type	= "Upkeep_Factor"
-value	= 1
+value	= 0
 
 [effect_empire_size_base]
 type    = "Empire_Size_Base"
@@ -121,3 +136,395 @@ reqs    =
 type    = "City_Unhappy_Size"
 value   = 4
 
+[effect_base_unit_upkeep_gold_1]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "OutputType", "Gold", "Local", TRUE
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Communism", "Player", FALSE
+;      "Gov", "Despotism", "Player", FALSE
+;      "Gov", "Monarchy", "Player", FALSE
+;      "Gov", "Fundamentalism", "Player", FALSE
+;      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+;      "Gov", "Democracy", "Player", FALSE
+    }
+
+; additive with previous => x2 for Fundamentalism, Federation, Democracy
+[effect_base_unit_upkeep_gold_2]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "OutputType", "Gold", "Local", TRUE
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Communism", "Player", FALSE
+      "Gov", "Despotism", "Player", FALSE
+      "Gov", "Monarchy", "Player", FALSE
+;      "Gov", "Fundamentalism", "Player", FALSE
+;      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+;      "Gov", "Democracy", "Player", FALSE
+    }
+
+[effect_base_unit_upkeep_shield]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "OutputType", "Shield", "Local", TRUE
+;      "Gov", "Anarchy", "Player", FALSE
+;      "Gov", "Tribal", "Player", FALSE
+;      "Gov", "Communism", "Player", FALSE
+      "Gov", "Despotism", "Player", FALSE
+      "Gov", "Monarchy", "Player", FALSE
+      "Gov", "Fundamentalism", "Player", FALSE
+      "Gov", "Federation", "Player", FALSE
+;      "Gov", "Republic", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
+    }
+
+[effect_base_unit_upkeep_food]
+type    = "Upkeep_Factor"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+    }
+
+[effect_unit_unhappiness]
+type    = "Unhappy_Factor"
+value   = 1
+reqs   =
+    { "type", "name", "range", "present"
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+;      "Gov", "Communism", "Player", FALSE
+      "Gov", "Despotism", "Player", FALSE
+;      "Gov", "Monarchy", "Player", FALSE
+;      "Gov", "Fundamentalism", "Player", FALSE
+;      "Gov", "Federation", "Player", FALSE
+;      "Gov", "Republic", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
+    }
+
+; exclusive with above
+[effect_unit_unhappiness_democracy]
+type    = "Unhappy_Factor"
+value   = 2
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
+    }
+
+; ...except Women's Suffrage reduces it back to Republic levels
+;[effect_womens_suffrage_1]
+;type    = "Unhappy_Factor"
+;value   = -1
+;reqs    =
+;    { "type", "name", "range"
+;      "Building", "Women's Suffrage", "Player"
+;      "Gov", "Democracy", "Player"
+;    }
+
+; Govs with 1 free unit
+[effect_upkeep_free_mil_1]
+type    = "Make_Content_Mil"
+value   = 1
+reqs   =
+    { "type", "name", "range", "present"
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Communism", "Player", FALSE
+      "Gov", "Despotism", "Player", FALSE
+      "Gov", "Monarchy", "Player", FALSE
+      "Gov", "Fundamentalism", "Player", FALSE
+      "Gov", "Federation", "Player", FALSE
+;      "Gov", "Republic", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
+    }
+
+; Govs with 2 free units (exclusive with previous)
+[effect_upkeep_free_mil_2]
+type    = "Make_Content_Mil"
+value   = 2
+reqs   =
+    { "type", "name", "range", "present"
+;      "Gov", "Anarchy", "Player", FALSE
+;      "Gov", "Tribal", "Player", FALSE
+      "Gov", "Communism", "Player", FALSE
+;      "Gov", "Despotism", "Player", FALSE
+      "Gov", "Monarchy", "Player", FALSE
+;      "Gov", "Fundamentalism", "Player", FALSE
+;      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+;      "Gov", "Democracy", "Player", FALSE
+    }
+
+; Govs with 3 free units (exclusive with previous)
+[effect_upkeep_free_mil_3]
+type    = "Make_Content_Mil"
+value   = 3
+reqs   =
+    { "type", "name", "range", "present"
+      "Gov", "Anarchy", "Player", FALSE
+      "Gov", "Tribal", "Player", FALSE
+;      "Gov", "Communism", "Player", FALSE
+      "Gov", "Despotism", "Player", FALSE
+;      "Gov", "Monarchy", "Player", FALSE
+      "Gov", "Fundamentalism", "Player", FALSE
+      "Gov", "Federation", "Player", FALSE
+      "Gov", "Republic", "Player", FALSE
+      "Gov", "Democracy", "Player", FALSE
+    }
+
+; normally 2 for Democracy, but 1 of these not needed with Women's Suffrage
+; due to reduced Unhappy_Factor
+;[effect_womens_suffrage_2]
+;type    = "Make_Content_Mil"
+;value   = -1
+;reqs    =
+;    { "type", "name", "range"
+;      "Building", "Women's Suffrage", "Player"
+;      "Gov", "Democracy", "Player"
+;    }
+
+[effect_upkeep_free_units_anarchy]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 2
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_tribal]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 2
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Tribal", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_despotism]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 2
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Despotism", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_monarchy]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 3
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Monarchy", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_fundamentalism]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 4
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Fundamentalism", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_republic]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Republic", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_democracy]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 2
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Democracy", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_federation]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 4
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Federation", "Player", TRUE
+      "OutputType", "Gold", "Local", FALSE
+    }
+
+[effect_upkeep_free_units_communism]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 3
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Communism", "Player", TRUE
+      "OutputType", "Shield", "Local", FALSE
+    }
+
+; Any city can support up to four units...
+[effect_upkeep_free_units_food_base]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 4
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+    }
+
+; ...or its size, whichever is bigger. Units above this limit have a
+; food penalty.
+[effect_upkeep_free_units_food_5]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "5", "City"
+    }
+
+[effect_upkeep_free_units_food_6]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "6", "City"
+    }
+
+[effect_upkeep_free_units_food_7]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "7", "City"
+    }
+
+[effect_upkeep_free_units_food_8]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "8", "City"
+    }
+
+[effect_upkeep_free_units_food_9]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "9", "City"
+    }
+
+[effect_upkeep_free_units_food_10]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "10", "City"
+    }
+
+[effect_upkeep_free_units_food_11]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "11", "City"
+    }
+
+[effect_upkeep_free_units_food_12]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "12", "City"
+    }
+
+[effect_upkeep_free_units_food_13]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "13", "City"
+    }
+
+[effect_upkeep_free_units_food_14]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "14", "City"
+    }
+
+[effect_upkeep_free_units_food_15]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "15", "City"
+    }
+
+[effect_upkeep_free_units_food_16]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "16", "City"
+    }
+
+[effect_upkeep_free_units_food_17]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "17", "City"
+    }
+
+[effect_upkeep_free_units_food_18]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "18", "City"
+    }
+
+[effect_upkeep_free_units_food_19]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "19", "City"
+    }
+
+[effect_upkeep_free_units_food_20]
+type    = "Unit_Upkeep_Free_Per_City"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "OutputType", "Food", "Local"
+      "MinSize", "20", "City"
+    }

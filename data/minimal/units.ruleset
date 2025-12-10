@@ -498,134 +498,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
 
 ;Default Ruleset
 
-[unit_diplomat]
-name          = _("Diplomat")
-class         = "Small Land"
-reqs          =
-  { "type", "name", "range"
-    "Tech", "Alphabet", "Player"
-  }
-;obsolete_by   = "Spy"
-graphic       = "u.diplomat"
-graphic_alt   = "-"
-sound_move    = "m_diplomat"
-sound_move_alt = "m_generic"
-sound_fight   = "f_diplomat"
-sound_fight_alt = "f_generic"
-build_cost    = 30
-pop_cost      = 0
-attack        = 0
-defense       = 0
-hitpoints     = 10
-firepower     = 1
-move_rate     = 2
-vision_radius_sq = 2
-transport_cap = 0
-fuel          = 0
-uk_happy      = 0
-uk_shield     = 1
-uk_food       = 0
-uk_gold       = 1
-tp_defense    = "Alight"
-vision_layer  = "Stealth"
-flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
-                "Provoking"
-veteran_names =
-; /* TRANS: diplomatic rank. */
-  _("?diplomatic_rank:attaché"),
-; /* TRANS: diplomatic rank */
-  _("?diplomatic_rank:secretary"),
-; /* TRANS: diplomatic rank */
-  _("?diplomatic_rank:envoy"),
-; /* TRANS: diplomatic rank */
-  _("?diplomatic_rank:ambassador")
-veteran_base_raise_chance = 50, 33, 20, 0
-veteran_work_raise_chance = 0, 0, 0, 0
-veteran_power_fact = 100, 105, 110, 115
-veteran_move_bonus = 0, 0, 0, 0
-roles         = "DiplomatStartUnit"
-helptext      = _("\
-A Diplomat is an official that carries your dispatches and\
- is authorized to deal with foreign dignitaries. He may\
- also undertake various covert operations with the intent of\
- harming your opponents; Diplomats in your own cities defend\
- them against such actions.\
-"), _("\
-Many covert actions may be attempted even in peacetime, but the more\
- aggressive actions will be discovered and cause diplomatic incidents,\
- giving an excuse for the breaking of treaties by a Federation or\
- Democracy, or a nuclear-armed regime otherwise restrained by the\
- United Nations.\
-"), _("\
-If a foreign unit is alone on a tile, you may attempt to bribe it\
- with your Diplomat. By paying a sum of gold the unit will immediately\
- become yours; the exact sum depends on the status of the unit and\
- that of the civilization owning it. Bribery when not at war will cause\
- a diplomatic incident. Homeless Diplomats cannot bribe units.\
-"), _("\
-Diplomats can also perform a number of actions in another player's\
- city, although each Diplomat may attempt only one action. Most of\
- these actions have a chance of failure. Also, any enemy Diplomats or\
- Spies in the city will oppose hostile actions, as will the enemy Leader\
- in games with leaders; in this case, either your unit or the defending\
- unit will die (if you go up against the Leader you will always die). If\
- the defending unit dies, you lose one movement point and may try again.\
-"), _("\
-The actions available to Diplomats in a city are:\
-"), _("\
- - \"Establish Embassy\": This action always succeeds, and gives\
- permanent contact with the city's owner, as well as intelligence\
- on their tax rates and technology. Each player you have an embassy\
- with that knows a technology reduces that technology's research\
- cost to you.\
-"), _("\
- - \"Investigate City\": Your unit attempts to report detailed\
- information about the city: its status, what buildings and units are\
- within, and what it is currently producing.\
- The unit is not consumed by this action.\
-"), _("\
- - \"Sabotage City\": Your unit attempts either to disrupt all the\
- city's work so far towards its current project, or to destroy an\
- existing building in the city, at random. Once built, Palaces and\
- Wonders cannot be sabotaged, and attempts to sabotage City Walls\
- or any building in a capital each halve the chance of success.\
- Sabotage may only be attempted when openly at war.\
-"), _("\
- - \"Steal Technology\": Your unit attempts to learn the secrets of a\
- random technology known to the city's owner but not to you. Technology\
- may only be stolen once from a given enemy city by Diplomats. This\
- action may be attempted even when not at war, but will cause a\
- diplomatic incident.\
-"), _("\
- - \"Incite a Revolt\": In return for gold a foreign city will change\
- allegiance and join your empire, bringing along all nearby units that\
- call it home, but reducing its size by 1. Units in other cities\
- remain in the enemy's control, but units outside cities are lost to\
- both players. The exact sum depends on the status of the city and\
- that of the civilization that owns it. It is not possible to incite\
- a rebellion in a capital, or in any city with Courthouse. Incitement\
- may be attempted in peacetime, but will cause a diplomatic incident.\
-"), _("\
-In some game strategies, hordes of Diplomats can be used to wreak\
- havoc on the enemy.  Little wonder that Diplomats are often\
- viewed with suspicion and fear!\
-"), _("\
-Diplomats built under Communist or Federation governments will\
- start at the first veteran level (secretary).\
-"),
-; /* xgettext:no-c-format */
-_("\
-The cost to bribe units or incite cities increases +50% for each 1000 \
-culture points accumulated by the target player, up to +500% (as if \
-the distance to the capital was 6 times lower) when the player reaches \
-10000 culture points.\
-"),
-; /* xgettext:no-c-format */
-_("\
-A city gets +5% resistance in diplomatic fights against enemy agents for \
-each 100 culture points, up to +50% when the city reaches 1000 culture \
-points.\
-")
+
 
 [unit_settlers]
 name          = _("Settlers")
@@ -1043,6 +916,135 @@ Horsemen are mounted warriors and an early\
  enemy territory.\
 ")
 
+[unit_diplomat]
+name          = _("Diplomat")
+class         = "Small Land"
+reqs          =
+  { "type", "name", "range"
+    "Tech", "Alphabet", "Player"
+  }
+;obsolete_by   = "Spy"
+graphic       = "u.diplomat"
+graphic_alt   = "-"
+sound_move    = "m_diplomat"
+sound_move_alt = "m_generic"
+sound_fight   = "f_diplomat"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+tp_defense    = "Alight"
+vision_layer  = "Stealth"
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
+                "Provoking"
+veteran_names =
+; /* TRANS: diplomatic rank. */
+  _("?diplomatic_rank:attaché"),
+; /* TRANS: diplomatic rank */
+  _("?diplomatic_rank:secretary"),
+; /* TRANS: diplomatic rank */
+  _("?diplomatic_rank:envoy"),
+; /* TRANS: diplomatic rank */
+  _("?diplomatic_rank:ambassador")
+veteran_base_raise_chance = 50, 33, 20, 0
+veteran_work_raise_chance = 0, 0, 0, 0
+veteran_power_fact = 100, 105, 110, 115
+veteran_move_bonus = 0, 0, 0, 0
+roles         = "DiplomatStartUnit"
+helptext      = _("\
+A Diplomat is an official that carries your dispatches and\
+ is authorized to deal with foreign dignitaries. He may\
+ also undertake various covert operations with the intent of\
+ harming your opponents; Diplomats in your own cities defend\
+ them against such actions.\
+"), _("\
+Many covert actions may be attempted even in peacetime, but the more\
+ aggressive actions will be discovered and cause diplomatic incidents,\
+ giving an excuse for the breaking of treaties by a Federation or\
+ Democracy, or a nuclear-armed regime otherwise restrained by the\
+ United Nations.\
+"), _("\
+If a foreign unit is alone on a tile, you may attempt to bribe it\
+ with your Diplomat. By paying a sum of gold the unit will immediately\
+ become yours; the exact sum depends on the status of the unit and\
+ that of the civilization owning it. Bribery when not at war will cause\
+ a diplomatic incident. Homeless Diplomats cannot bribe units.\
+"), _("\
+Diplomats can also perform a number of actions in another player's\
+ city, although each Diplomat may attempt only one action. Most of\
+ these actions have a chance of failure. Also, any enemy Diplomats or\
+ Spies in the city will oppose hostile actions, as will the enemy Leader\
+ in games with leaders; in this case, either your unit or the defending\
+ unit will die (if you go up against the Leader you will always die). If\
+ the defending unit dies, you lose one movement point and may try again.\
+"), _("\
+The actions available to Diplomats in a city are:\
+"), _("\
+ - \"Establish Embassy\": This action always succeeds, and gives\
+ permanent contact with the city's owner, as well as intelligence\
+ on their tax rates and technology. Each player you have an embassy\
+ with that knows a technology reduces that technology's research\
+ cost to you.\
+"), _("\
+ - \"Investigate City\": Your unit attempts to report detailed\
+ information about the city: its status, what buildings and units are\
+ within, and what it is currently producing.\
+ The unit is not consumed by this action.\
+"), _("\
+ - \"Sabotage City\": Your unit attempts either to disrupt all the\
+ city's work so far towards its current project, or to destroy an\
+ existing building in the city, at random. Once built, Palaces and\
+ Wonders cannot be sabotaged, and attempts to sabotage City Walls\
+ or any building in a capital each halve the chance of success.\
+ Sabotage may only be attempted when openly at war.\
+"), _("\
+ - \"Steal Technology\": Your unit attempts to learn the secrets of a\
+ random technology known to the city's owner but not to you. Technology\
+ may only be stolen once from a given enemy city by Diplomats. This\
+ action may be attempted even when not at war, but will cause a\
+ diplomatic incident.\
+"), _("\
+ - \"Incite a Revolt\": In return for gold a foreign city will change\
+ allegiance and join your empire, bringing along all nearby units that\
+ call it home, but reducing its size by 1. Units in other cities\
+ remain in the enemy's control, but units outside cities are lost to\
+ both players. The exact sum depends on the status of the city and\
+ that of the civilization that owns it. It is not possible to incite\
+ a rebellion in a capital, or in any city with Courthouse. Incitement\
+ may be attempted in peacetime, but will cause a diplomatic incident.\
+"), _("\
+In some game strategies, hordes of Diplomats can be used to wreak\
+ havoc on the enemy.  Little wonder that Diplomats are often\
+ viewed with suspicion and fear!\
+"), _("\
+Diplomats built under Communist or Federation governments will\
+ start at the first veteran level (secretary).\
+"),
+; /* xgettext:no-c-format */
+_("\
+The cost to bribe units or incite cities increases +50% for each 1000 \
+culture points accumulated by the target player, up to +500% (as if \
+the distance to the capital was 6 times lower) when the player reaches \
+10000 culture points.\
+"),
+; /* xgettext:no-c-format */
+_("\
+A city gets +5% resistance in diplomatic fights against enemy agents for \
+each 100 culture points, up to +50% when the city reaches 1000 culture \
+points.\
+")
+
 
 ;Custom Ruleset
 
@@ -1074,39 +1076,6 @@ Horsemen are mounted warriors and an early\
 ;tp_defense    = "Alight"
 ;flags         = "Settlers"
 ;roles         = "ExplorerStartUnit", "Firstbuild", "CitiesStartUnit"
-;helptext      = _("\
-;  This is the only land unit type you can build.\
-;")
-
-; This unit is far stronger than the others.
-;[unit_thanos]
-;name          = _("Thanos")
-;class         = "Generic"
-;tech_req      = "The Blip"
-;obsolete_by   = "None"
-;graphic       = "u.leader"
-;graphic_alt   = "-"
-;sound_move    = "m_leader"
-;sound_move_alt = "m_generic"
-;sound_fight   = "f_leader"
-;sound_fight_alt = "f_generic"
-;build_cost    = 30 ; 0-???
-;pop_cost      = 0
-;attack        = 255 ; 0-255
-;defense       = 255 ; 0-255
-;hitpoints     = 255 ; 0-255
-;firepower     = 255 ; 0-255
-;move_rate     = 1
-;vision_radius_sq = 2
-;transport_cap = 0
-;fuel          = 0
-;uk_happy      = 0
-;uk_shield     = 0
-;uk_food       = 0
-;uk_gold       = 0
-;tp_defense    = "Alight"
-;flags         = "Capturer", "Fortress"
-;roles         = "DefendOk"
 ;helptext      = _("\
 ;  This is the only land unit type you can build.\
 ;")

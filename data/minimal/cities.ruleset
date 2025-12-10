@@ -47,6 +47,23 @@ reqs            =
 ; No requirements
     }
 
+[specialist_elvis]
+name            = _("Entertainers")
+; (The original specialist names in the classic ruleset and derivatives were
+; not designed to be user-visible.)
+rule_name       = "elvis"
+short_name	= _("?Elvis:E")
+graphic         = "specialist.entertainer"
+reqs		=
+    { "type", "name", "range"
+; Nothing
+    }
+helptext        = _("\
+Each entertainer produces two luxury points for their city per turn, \
+increasing to three once any player has built Shakespeare's Theater. \
+See the section on Happiness for the effects of luxury points.\
+")
+
 [specialist_scientist]
 name            = _("Scientists")
 rule_name       = "scientist"

@@ -215,6 +215,53 @@ and the Temple of Artemis, 4 citizens are made content (3 under \
 Communism). Does not affect citizens made unhappy by aggression.\
 ")
 
+[building_palace]
+name		= _("Palace")
+genus		= "SmallWonder"
+flags		= "SaveSmallWonder"
+reqs	=
+    { "type", "name", "range"
+    }
+graphic         = "b.palace"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 70
+upkeep		= 0
+sabotage	= 0
+sound		= "b_palace"
+sound_alt	= "b_generic"
+sound_alt2      = "-"
+helptext	= _("\
+Makes a city the capital and the center of your government. \
+Waste in other cities (corruption, production waste, and food waste) \
+is often related to how far away from the capital they are. On top of \
+this, corruption and production waste in your capital itself is half \
+of what it would otherwise be (and a Courthouse will eliminate it \
+entirely).\
+"), _("\
+The cost to enemy Diplomats and Spies of inciting a revolt in a \
+city also depends upon the city's distance from the capital \
+(under all forms of government). Your capital city itself cannot \
+be incited to revolt, and enjoys a bonus when enemy agents try \
+to evade your own agents stationed in the city, or sabotage your \
+buildings.\
+"), _("\
+Take good care of your capital, as its loss may result in your \
+empire plunging into civil war. Losing your current palace also \
+results in losing whatever spaceship you might have.\
+"), _("\
+If the capital is in a dangerous location, or a more central capital\
+ would give a better corruption distribution, you can move your palace\
+ by rebuilding it in another city.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Under Despotism the city containing the palace gains a +75% \
+gold bonus, and under Monarchy a +50% gold bonus.\
+")
 
 
 ; Custom Ruleset
