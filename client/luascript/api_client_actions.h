@@ -25,6 +25,10 @@ bool api_client_attack_dir_gui(struct lua_State *L, int unit_id,
                                int gui_dir8);
 bool api_client_attack_native(struct lua_State *L, int unit_id,
                               int nat_x, int nat_y);
+bool api_client_attack_city(struct lua_State *L, int unit_id,
+                            int city_id);
+bool api_client_conquer_city(struct lua_State *L, int unit_id,
+                             int city_id);
 bool api_client_set_research(struct lua_State *L, int player_id,
                              const char *tech_identifier);
 bool api_client_set_research_goal(struct lua_State *L, int player_id,

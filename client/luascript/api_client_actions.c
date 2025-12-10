@@ -12,6 +12,7 @@
 #include "luascript.h"
 
 /* common */
+#include "city.h"
 #include "game.h"
 #include "map.h"          /* enum direction8, DIR8_MAGIC_MAX */
 #include "player.h"
@@ -216,6 +217,49 @@ bool api_client_attack_native(lua_State *L, int unit_id,
                       "invalid native coordinates", FALSE);
 
   request_do_action(ACTION_ATTACK, unit_id, tile_index(ptile), 0, "");
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Order a unit to attack the tile of a given city id.
+*****************************************************************************/
+bool api_client_attack_city(lua_State *L, int unit_id, int city_id)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 3, "unknown city id", FALSE);
+
+  struct tile *ptile = city_tile(pcity);
+  LUASCRIPT_CHECK(L, ptile != NULL, "city missing tile", FALSE);
+
+  request_do_action(ACTION_ATTACK, unit_id, tile_index(ptile), 0, "");
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Order a unit to perform the conquer city action on a city id.
+*****************************************************************************/
+bool api_client_conquer_city(lua_State *L, int unit_id, int city_id)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 3, "unknown city id", FALSE);
+
+  request_do_action(ACTION_CONQUER_CITY, unit_id, city_id, 0, "");
   return TRUE;
 }
 

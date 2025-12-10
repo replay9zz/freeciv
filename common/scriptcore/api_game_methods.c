@@ -889,6 +889,25 @@ const char *api_methods_research_name_translation(lua_State *L,
 }
 
 /**********************************************************************//**
+  Return the player's current research goal (Tech_Type) or nil.
+**************************************************************************/
+Tech_Type *api_methods_player_research_goal(lua_State *L, Player *pplayer)
+{
+  const struct research *presearch;
+
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
+
+  presearch = research_get(pplayer);
+  LUASCRIPT_CHECK(L, presearch, "player's research not set", NULL);
+
+  if (presearch->tech_goal == A_UNSET || presearch->tech_goal == A_NONE) {
+    return NULL;
+  }
+  return advance_by_number(presearch->tech_goal);
+}
+
+/**********************************************************************//**
   Return Lua list of all players
   FIXME: safe function, no reason to hide
 **************************************************************************/

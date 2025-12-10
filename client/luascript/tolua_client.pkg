@@ -56,6 +56,10 @@ module client {
     @ attack_dir (lua_State *L, int unit_id, int dir8);
   bool api_client_attack_dir_gui
     @ attack_dir_gui (lua_State *L, int unit_id, int gui_dir8);
+  bool api_client_attack_city
+    @ attack_city (lua_State *L, int unit_id, int city_id);
+  bool api_client_conquer_city
+    @ conquer_city (lua_State *L, int unit_id, int city_id);
   bool api_client_set_research
     @ set_research (lua_State *L, int player_id, const char *tech_identifier);
   bool api_client_set_research_goal
