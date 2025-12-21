@@ -263,6 +263,37 @@ Under Despotism the city containing the palace gains a +75% \
 gold bonus, and under Monarchy a +50% gold bonus.\
 ")
 
+[building_capitalization]
+name		= _("Coinage")
+genus		= "Convert"
+flags		= "Gold"
+reqs	=
+    { "type", "name", "range"
+
+    }
+graphic         = "b.capitalization"
+graphic_alt     = "-"
+graphic_alt2    = "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 999
+upkeep		= 0
+sabotage	= 0
+; FIXME: this is the real helptext; restore when have a subordnate analogue
+; /* (ignore for gettext until fixed)
+;helptext	= _("\
+;This is not a normal improvement. Instead, setting a city's\
+; production to Capitalization means its shield production is\
+; converted to tax output (money).\
+;")
+; */
+helptext	= _("\
+This is not a normal improvement. Instead, setting a city's\
+ production to Coinage means its shield production is\
+ converted to tax output (money, coins!).\
+")
+
 
 ; Custom Ruleset
 
