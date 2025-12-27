@@ -38,14 +38,14 @@ format_version = 30
 ;
 ; */ <-- avoid gettext warnings
 
-[specialist_generic]
-name            = _("Generic")
-short_name      = _("?gspecialist:G")
-graphic         = "specialist.entertainer"
-reqs            =
-    { "type", "name", "range"
+;[specialist_generic]
+;name            = _("Generic")
+;short_name      = _("?gspecialist:G")
+;graphic         = "specialist.entertainer"
+;reqs            =
+;    { "type", "name", "range"
 ; No requirements
-    }
+;    }
 
 [specialist_elvis]
 name            = _("Entertainers")
@@ -79,6 +79,20 @@ per turn, increasing to three once any player has built Darwin's \
 Voyage.\
 ")
 
+[specialist_taxman]
+name            = _("Taxmen")
+rule_name       = "taxman"
+short_name	= _("?Taxman:T")
+graphic         = "specialist.taxman"
+reqs		=
+    { "type", "name", "range"
+; Nothing
+    }
+helptext        = _("\
+Each tax collector produces two extra gold for your treasury \
+per turn, increasing to three once any player has built \
+A.Smith's Trading Co.\
+")
 
 [parameters]
 add_to_size_limit  = 8		; cities >= this cannot be added to.

@@ -176,9 +176,77 @@ value   = 1
 type    = "Empire_Size_Step"
 value   = 1
 
-[effect_max_rates_base]
+[effect_max_rates_anarchy]
 type    = "Max_Rates"
-value   = 40
+value   = 100
+reqs    =
+    { "type", "name", "range", "quiet"
+      "Gov", "Anarchy", "Player", TRUE
+    }
+
+[effect_max_rates_tribal]
+type    = "Max_Rates"
+value   = 60
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Tribal", "Player"
+    }
+
+[effect_max_rates_despotism]
+type    = "Max_Rates"
+value   = 60
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Despotism", "Player"
+    }
+
+[effect_max_rates_monarchy]
+type    = "Max_Rates"
+value   = 70
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Monarchy", "Player"
+    }
+
+[effect_max_rates_communism]
+type    = "Max_Rates"
+value   = 80
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Communism", "Player"
+    }
+
+[effect_max_rates_fundamentalism]
+type    = "Max_Rates"
+value   = 70
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Fundamentalism", "Player"
+    }
+
+[effect_max_rates_federation]
+type    = "Max_Rates"
+value   = 90
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Federation", "Player"
+    }
+
+[effect_max_rates_republic]
+type    = "Max_Rates"
+value   = 80
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Republic", "Player"
+    }
+
+[effect_max_rates_democracy]
+type    = "Max_Rates"
+value   = 90
+reqs    =
+    { "type", "name", "range"
+      "Gov", "Democracy", "Player"
+    }
 
 [effect_base_size] ;This value is size of population in the city.
 type    = "Size_Adj"
@@ -238,13 +306,35 @@ reqs    =
       "UnitClassFlag", "Barracks", "Local", TRUE
     }
 
-[effect_city_walls_defense]
+; All Ground units
+[effect_city_defense_0]
+type    = "Defend_Bonus"
+value   = 50
+reqs    =
+    { "type",          "name",   "range"
+      "UnitClassFlag", "Ground", "Local"
+      "CityTile",      "Center", "Tile"
+    }
+
+; All Ground and Naval units
+[effect_city_defense_1]
+type    = "Defend_Bonus"
+value   = 50
+reqs    =
+    { "type",          "name",   "range", "present"
+      "MinSize",       "9",      "City",  TRUE
+      "CityTile",      "Center", "Tile",  TRUE
+      "UnitClassFlag", "Aerial", "Local", FALSE
+    }
+
+; Every Land
+[effect_city_walls_0]
 type    = "Defend_Bonus"
 value   = 100
 reqs    =
-    { "type", "name", "range"
-      "Building", "City Walls", "City"
-      "UnitClassFlag", "Ground", "Local"
+    { "type",          "name",       "range"
+      "Building",      "City Walls", "City"
+      "UnitClassFlag", "Ground",     "Local"
     }
 
 [effect_city_walls_population]
