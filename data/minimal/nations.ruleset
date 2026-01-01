@@ -85,9 +85,9 @@ rule_name="all"
 ; match		= How much the AI will try to select a nation in the same
 ;                 group
 
-[ngroup_generic]
-name=_("?nationgroup:Generic")
-match=2
+;[ngroup_generic]
+;name=_("?nationgroup:Generic")
+;match=2
 
 [compatibility]
 ; Initial government for all the nations that do not
@@ -98,13 +98,13 @@ default_government = "Despotism"
 ; If a referenced game identifier is not on these
 ; lists, it will cause an error, to allow typos to be spotted.
 
-allowed_govs =
-  "Anarchy", "Tribal", "Despotism"
-allowed_terrains =
-  "Ocean", "Grassland"
-allowed_styles =
-  "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic", "Industrial", 
-  "ElectricAge", "Modern", "PostModern"
+;allowed_govs =
+;  "Anarchy", "Tribal", "Despotism", "Monarcy"
+;allowed_terrains =
+;  "Ocean", "Grassland"
+;allowed_styles =
+;  "European", "Classical", "Tropical", "Asian", "Babylonian", "Celtic", "Industrial", 
+;  "ElectricAge", "Modern", "PostModern"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more

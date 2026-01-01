@@ -182,7 +182,7 @@ _("\
 
 name        = _("Monarchy")
 reqs = { "type", "name", "range"
-;         "tech", "Monarchy", "Player"
+         "tech", "Monarchy", "Player"
        }
 graphic     = "gov.monarchy"
 graphic_alt = "-"
@@ -222,7 +222,7 @@ _("\
 
 name        = _("Communism")
 reqs = { "type", "name", "range"
-;         "tech", "Communism", "Player"
+         "tech", "Communism", "Player"
        }
 graphic     = "gov.communism"
 graphic_alt = "-"
@@ -263,7 +263,7 @@ _("\
 
 name        = _("Fundamentalism")
 reqs = { "type", "name", "range"
-;         "tech", "Theology", "Player"
+         "tech", "Theology", "Player"
        }
 graphic     = "gov.fundamentalism"
 graphic_alt = "-"
@@ -312,7 +312,7 @@ _("\
 
 name        = _("Federation")
 reqs = { "type", "name", "range"
-;         "tech", "Economics", "Player"
+         "tech", "Economics", "Player"
        }
 graphic     = "gov.federation"
 graphic_alt = "s.tax_gold"
@@ -351,7 +351,7 @@ _("\
 
 name        = _("Republic")
 reqs = { "type", "name", "range"
-;         "tech", "The Republic", "Player"
+         "tech", "The Republic", "Player"
        }
 graphic     = "gov.republic"
 graphic_alt = "-"
@@ -392,7 +392,7 @@ _("\
 
 name        = _("Democracy")
 reqs = { "type", "name", "range"
-;         "tech", "Democracy", "Player"
+         "tech", "Democracy", "Player"
        }
 graphic     = "gov.democracy"
 graphic_alt = "-"

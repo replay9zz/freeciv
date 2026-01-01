@@ -7,6 +7,7 @@
 #endif
 
 #include <stdbool.h>
+#include <stdlib.h>
 
 /* common/scriptcore */
 #include "luascript.h"
@@ -14,6 +15,7 @@
 /* common */
 #include "city.h"
 #include "game.h"
+#include "government.h"
 #include "map.h"          /* enum direction8, DIR8_MAGIC_MAX */
 #include "player.h"
 #include "requirements.h"
@@ -127,6 +129,53 @@ bool api_client_end_turn(lua_State *L)
   LUASCRIPT_CHECK_STATE(L, FALSE);
 
   send_turn_done();
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Begin a revolution (enter anarchy).
+*****************************************************************************/
+bool api_client_start_revolution(lua_State *L)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  if (client.conn.playing == NULL || !can_client_issue_orders()) {
+    return FALSE;
+  }
+
+  start_revolution();
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Set the target government by rule name, translated name, or numeric id.
+  Triggers revolution if switching away from current government.
+*****************************************************************************/
+bool api_client_set_government(lua_State *L, const char *gov_identifier)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+  LUASCRIPT_CHECK_ARG(L, gov_identifier != NULL && gov_identifier[0] != '\0', 2,
+                      "missing government", FALSE);
+
+  struct government *gov = NULL;
+  char *endptr = NULL;
+  long gov_id = strtol(gov_identifier, &endptr, 10);
+
+  if (endptr != NULL && *endptr == '\0') {
+    gov = government_by_number((Government_type_id)gov_id);
+  }
+  if (gov == NULL) {
+    gov = government_by_rule_name(gov_identifier);
+  }
+  if (gov == NULL) {
+    gov = government_by_translated_name(gov_identifier);
+  }
+  LUASCRIPT_CHECK(L, gov != NULL, "unknown government", FALSE);
+
+  set_government_choice(gov);
   return TRUE;
 }
 

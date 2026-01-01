@@ -659,7 +659,7 @@ set =
 
     ;Sociological
       "startunits", "c", TRUE
-      "startcity", "ENABLED", TRUE
+      "startcity", "DISABLED", TRUE
       "trading_tech", "DISABLED", TRUE
       "trading_gold", "DISABLED", TRUE
       "trading_city", "DISABLED", TRUE
