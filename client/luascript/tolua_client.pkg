@@ -52,6 +52,10 @@ module client {
     @ start_revolution (lua_State *L);
   bool api_client_set_government
     @ set_government (lua_State *L, const char *gov_identifier);
+  bool api_client_auto_settler
+    @ auto_settler (lua_State *L, int unit_id);
+  bool api_client_upgrade_unit
+    @ upgrade_unit (lua_State *L, int unit_id);
   bool api_client_attack_native
     @ attack (lua_State *L, int unit_id, int nat_x, int nat_y);
   bool api_client_attack_tile

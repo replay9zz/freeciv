@@ -186,6 +186,7 @@ Unit *api_methods_unit_transporter(lua_State *L, Unit *punit);
 Unit_List_Link *api_methods_private_unit_cargo_list_head(lua_State *L,
                                                          Unit *punit);
 bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free);
+int api_methods_unit_upgrade_cost(lua_State *L, Unit *punit);
 const char *api_methods_unit_transform_problem(lua_State *L, Unit *punit,
                                                Unit_Type *ptype);
 bool api_methods_unit_seen(lua_State *L, Unit *self, Player *watcher);

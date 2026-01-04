@@ -685,3 +685,9 @@ target_reqs   =
       "ExtraFlag",  "AllowsFarmlandOnDesert", "Tile",      TRUE
     }
 
+[actionenabler_upgrade_unit]
+action        = "Upgrade Unit"
+actor_reqs    =
+    { "type",    "name",       "range", "present"
+      "DiplRel", "Foreign", "Local", FALSE
+    }

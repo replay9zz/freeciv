@@ -20,6 +20,8 @@ bool api_client_set_city_production(struct lua_State *L, int city_id,
 bool api_client_end_turn(struct lua_State *L);
 bool api_client_start_revolution(struct lua_State *L);
 bool api_client_set_government(struct lua_State *L, const char *gov_identifier);
+bool api_client_auto_settler(struct lua_State *L, int unit_id);
+bool api_client_upgrade_unit(struct lua_State *L, int unit_id);
 bool api_client_attack_tile(struct lua_State *L, int unit_id,
                             int tile_index);
 bool api_client_attack_dir(struct lua_State *L, int unit_id, int dir8);

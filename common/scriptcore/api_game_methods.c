@@ -799,6 +799,30 @@ bool api_methods_unit_can_upgrade(lua_State *L, Unit *punit, bool is_free)
 }
 
 /**********************************************************************//**
+  Return the gold cost to upgrade a unit, or -1 if no upgrade exists.
+**************************************************************************/
+int api_methods_unit_upgrade_cost(lua_State *L, Unit *punit)
+{
+  const struct player *pplayer;
+  const struct unit_type *from_utype;
+  const struct unit_type *to_utype;
+
+  LUASCRIPT_CHECK_STATE(L, -1);
+  LUASCRIPT_CHECK_SELF(L, punit, -1);
+
+  pplayer = unit_owner(punit);
+  if (!pplayer) {
+    return -1;
+  }
+  from_utype = unit_type_get(punit);
+  to_utype = can_upgrade_unittype(pplayer, from_utype);
+  if (!to_utype) {
+    return -1;
+  }
+  return unit_upgrade_price(pplayer, from_utype, to_utype);
+}
+
+/**********************************************************************//**
   Return a name of the problem unit may have being transformed to ptype
   where it is now, or nil if no problem seems to exist.
 **************************************************************************/

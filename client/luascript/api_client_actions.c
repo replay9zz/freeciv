@@ -180,6 +180,48 @@ bool api_client_set_government(lua_State *L, const char *gov_identifier)
 }
 
 /*************************************************************************//**
+  Set autosettler mode on the unit (auto worker/settler improvements).
+*****************************************************************************/
+bool api_client_auto_settler(lua_State *L, int unit_id)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  if (!can_unit_do_autosettlers(punit)) {
+    return FALSE;
+  }
+
+  request_unit_autosettlers(punit);
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Request a gold-paid unit upgrade (if allowed in current city).
+*****************************************************************************/
+bool api_client_upgrade_unit(lua_State *L, int unit_id)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  struct player *pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  if (unit_upgrade_test(&(wld.map), punit, FALSE) != UU_OK) {
+    return FALSE;
+  }
+
+  request_unit_upgrade(punit);
+  return TRUE;
+}
+
+/*************************************************************************//**
   Order a unit to attack a target tile (adjacent as per rules).
 *****************************************************************************/
 bool api_client_attack_tile(lua_State *L, int unit_id, int tile_index)
