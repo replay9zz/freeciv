@@ -691,3 +691,10 @@ actor_reqs    =
     { "type",    "name",       "range", "present"
       "DiplRel", "Foreign", "Local", FALSE
     }
+
+[actionenabler_disband_unit]
+action        = "Disband Unit"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "EvacuateFirst", "Local", FALSE
+    }
