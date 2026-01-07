@@ -223,6 +223,10 @@ module Player {
 
   int api_methods_player_culture_get
     @ culture(lua_State *L, Player *self);
+  int api_methods_player_score_game
+    @ score_game(lua_State *L, Player *self);
+  bool api_methods_player_is_winner
+    @ is_winner(lua_State *L, Player *self);
   bool api_methods_player_has_flag
     @ has_flag (lua_State *L, Player *self, const char *flag);
   Unit_Type *api_methods_player_can_upgrade

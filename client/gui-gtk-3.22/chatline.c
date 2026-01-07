@@ -755,19 +755,24 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
 void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
                     ft_offset_t text_start_offset, const char *text)
 {
-  static bool initialized = FALSE;
   GtkTextIter start, stop;
 
-  if (!initialized) {
+  GtkTextTagTable *table = gtk_text_buffer_get_tag_table(buf);
+  if (!gtk_text_tag_table_lookup(table, "bold")) {
     gtk_text_buffer_create_tag(buf, "bold",
                                "weight", PANGO_WEIGHT_BOLD, NULL);
+  }
+  if (!gtk_text_tag_table_lookup(table, "italic")) {
     gtk_text_buffer_create_tag(buf, "italic",
                                "style", PANGO_STYLE_ITALIC, NULL);
+  }
+  if (!gtk_text_tag_table_lookup(table, "strike")) {
     gtk_text_buffer_create_tag(buf, "strike",
                                "strikethrough", TRUE, NULL);
+  }
+  if (!gtk_text_tag_table_lookup(table, "underline")) {
     gtk_text_buffer_create_tag(buf, "underline",
                                "underline", PANGO_UNDERLINE_SINGLE, NULL);
-    initialized = TRUE;
   }
 
   /* Get the position. */

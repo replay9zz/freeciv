@@ -717,6 +717,28 @@ int api_methods_player_culture_get(lua_State *L, Player *pplayer)
 }
 
 /**********************************************************************//**
+  Total score shown in the player dialog.
+**************************************************************************/
+int api_methods_player_score_game(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_SELF(L, pplayer, 0);
+
+  return pplayer->score.game;
+}
+
+/**********************************************************************//**
+  Returns TRUE if the player is marked as a winner.
+**************************************************************************/
+bool api_methods_player_is_winner(lua_State *L, Player *pplayer)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+
+  return pplayer->is_winner;
+}
+
+/**********************************************************************//**
   Does player have flag set?
 **************************************************************************/
 bool api_methods_player_has_flag(lua_State *L, Player *pplayer,

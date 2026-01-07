@@ -110,6 +110,21 @@ GtkWidget *map_vertical_scrollbar;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
 GtkWidget *overview_scrolled_window;    /* GtkScrolledWindow */
+static guint16 luaremote_env_port(void)
+{
+  const char *env = getenv("FREECIV_LUAREMOTE_PORT");
+  if (!env || !*env) {
+    env = getenv("FREECIV_PORT");
+  }
+  if (env && *env) {
+    char *endptr = NULL;
+    long port = strtol(env, &endptr, 10);
+    if (endptr && *endptr == '\0' && port > 0 && port <= 65535) {
+      return (guint16) port;
+    }
+  }
+  return 4444;
+}
 /* The two values below define the width and height of the map overview. The
  * first set of values (2*62, 2*46) define the size for a netbook display. For
  * bigger displays the values are doubled (default). */
@@ -1904,7 +1919,7 @@ int ui_main(int argc, char **argv)
 
 #ifdef ENABLE_LUAREMOTE
     /* Start LuaRemote listener for external control. */
-    luaconsole_remote_start(4444);
+    luaconsole_remote_start(luaremote_env_port());
 #endif
 
     help_system_init();

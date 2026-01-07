@@ -116,6 +116,8 @@ Unit_List_Link *api_methods_private_player_unit_list_head(lua_State *L,
 City_List_Link *api_methods_private_player_city_list_head(lua_State *L,
                                                           Player *pplayer);
 int api_methods_player_culture_get(lua_State *L, Player *pplayer);
+int api_methods_player_score_game(lua_State *L, Player *pplayer);
+bool api_methods_player_is_winner(lua_State *L, Player *pplayer);
 
 bool api_methods_player_has_flag(lua_State *L, Player *pplayer, const char *flag);
 Unit_Type *api_methods_player_can_upgrade(lua_State *L, Player *pplayer,
