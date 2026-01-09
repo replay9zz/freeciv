@@ -17,6 +17,10 @@ bool api_client_found_city(struct lua_State *L, int unit_id,
 bool api_client_set_city_production(struct lua_State *L, int city_id,
                                     const char *kind,
                                     const char *rule_name);
+bool api_client_queue_city_production(struct lua_State *L, int city_id,
+                                      const char *kind,
+                                      const char *rule_name,
+                                      int position);
 bool api_client_end_turn(struct lua_State *L);
 bool api_client_start_revolution(struct lua_State *L);
 bool api_client_set_government(struct lua_State *L, const char *gov_identifier);

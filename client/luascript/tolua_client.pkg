@@ -46,6 +46,8 @@ module client {
     @ found_city (lua_State *L, int unit_id, const char *city_name);
   bool api_client_set_city_production
     @ set_city_production (lua_State *L, int city_id, const char *kind, const char *rule_name);
+  bool api_client_queue_city_production
+    @ queue_city_production (lua_State *L, int city_id, const char *kind, const char *rule_name, int position);
   bool api_client_end_turn
     @ end_turn (lua_State *L);
   bool api_client_start_revolution

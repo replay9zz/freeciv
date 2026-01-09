@@ -122,6 +122,35 @@ bool api_client_set_city_production(lua_State *L, int city_id,
 }
 
 /*************************************************************************//**
+  Append a production target to a city's queue.
+*****************************************************************************/
+bool api_client_queue_city_production(lua_State *L, int city_id,
+                                      const char *kind,
+                                      const char *rule_name,
+                                      int position)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+
+  const char *type = (kind && kind[0]) ? kind : "UnitType";
+  LUASCRIPT_CHECK_ARG(L, rule_name != NULL && rule_name[0] != '\0', 3,
+                      "missing rule name", FALSE);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", FALSE);
+
+  struct universal target = universal_by_rule_name(type, rule_name);
+  LUASCRIPT_CHECK(L, target.kind != VUT_NONE, "invalid production target",
+                  FALSE);
+
+  if (position == 0) {
+    city_change_production(pcity, &target);
+    return TRUE;
+  }
+
+  return city_queue_insert(pcity, position, &target);
+}
+
+/*************************************************************************//**
   End current player's turn.
 *****************************************************************************/
 bool api_client_end_turn(lua_State *L)
