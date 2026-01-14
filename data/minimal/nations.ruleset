@@ -113,6 +113,7 @@ default_government = "Despotism"
 ; See doc/README.nations for information on how to
 ; create nation rulesets, including style guidelines.
 
+*include "minimal/nations/generic.ruleset"
 *include "minimal/nations/nation1.ruleset"
 *include "minimal/nations/nation2.ruleset"
 
