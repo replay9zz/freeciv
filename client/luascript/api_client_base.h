@@ -24,10 +24,10 @@ extern "C" {
 struct lua_State;
 
 void api_client_chat_base(lua_State *L, const char *msg);
+bool api_client_chat_send(lua_State *L, const char *msg);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
 #endif /* FC__API_CLIENT_BASE_H */
-

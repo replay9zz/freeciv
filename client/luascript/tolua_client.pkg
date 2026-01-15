@@ -35,6 +35,8 @@ $#include "script_client.h"
 module chat {
   void api_client_chat_base
     @ base (lua_State *L, const char *message);
+  bool api_client_chat_send
+    @ send (lua_State *L, const char *message);
 }
 
 module client {

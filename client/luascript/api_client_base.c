@@ -36,3 +36,15 @@ void api_client_chat_base(lua_State *L, const char *msg)
 
   output_window_printf(ftc_chat_luaconsole, "%s", msg);
 }
+
+/*************************************************************************//**
+  Send a message to the server chat (also used for /commands).
+*****************************************************************************/
+bool api_client_chat_send(lua_State *L, const char *msg)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, msg, 2, string, FALSE);
+
+  send_chat(msg);
+  return TRUE;
+}
