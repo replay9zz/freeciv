@@ -15,3 +15,7 @@ Freeciv website: [Freeciv.org](https://www.freeciv.org/)
 Submit patches: [redmine.freeciv.org](https://redmine.freeciv.org/projects/freeciv)
 
 Community forum: [forum.freeciv.org](https://forum.freeciv.org/)
+
+# LuaRemote
+LuaRemote is a new feature.
+It lets you access the Client Lua Console from an external terminal.
