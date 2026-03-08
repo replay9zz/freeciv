@@ -1,0 +1,57 @@
+=========================
+Minimal Actionlog Ruleset
+=========================
+
+This ruleset is based on Freeciv 3.2 `minimal` and adds one feature:
+server-side Lua callbacks emit structured action logs for offline dataset
+collection.
+
+What gets logged
+----------------
+
+Each log line starts with `ACTLOG` and is emitted with `log.normal()`.
+The remainder of the line is tab-separated `key=value` fields.
+
+Covered signals include:
+
+- turn_begin
+- player_phase_begin / player_phase_end
+- unit_moved
+- city_built
+- unit_built
+- building_built
+- tech_researched
+- action_finished_unit_unit
+- action_finished_unit_units
+- action_finished_unit_city
+- action_finished_unit_tile
+- action_finished_unit_extras
+- action_finished_unit_self
+
+Typical workflow
+----------------
+
+1. Start the server from the source tree or set `FREECIV_DATA_PATH` to this
+   repository's `freeciv/data` directory.
+2. In the server console run:
+
+   rulesetdir minimal_actionlog
+   set minplayers 0
+   set aifill 2
+   set timeout 30
+   set first_timeout -1
+   start
+
+3. Save server output to a file (`-l` option or `tee`).
+4. Grep `ACTLOG` lines.
+
+Example
+-------
+
+  FREECIV_DATA_PATH=/home/ubuntu/freeciv_test/freeciv/data \
+    /home/ubuntu/freeciv_test/freeciv_build_v3_2/freeciv-server 2>&1 \
+    | tee /tmp/freeciv-minimal-actionlog.log
+
+Extract action lines:
+
+  rg 'ACTLOG' /tmp/freeciv-minimal-actionlog.log > /tmp/freeciv-minimal-actionlog.tsv

@@ -1,0 +1,79 @@
+=========================
+Classic Actionlog Ruleset
+=========================
+
+This ruleset is a copy of the Freeciv 3.2 "classic" ruleset with one extra
+feature: server-side Lua callbacks emit structured action logs for offline
+dataset collection.
+
+What gets logged
+----------------
+
+Each log line starts with `ACTLOG` and is emitted with `log.normal()`.
+The remainder of the line is tab-separated `key=value` fields.
+
+Covered signals include:
+
+- turn_begin
+- player_phase_begin / player_phase_end
+- unit_moved
+- city_built
+- unit_built
+- building_built
+- tech_researched
+- action_finished_unit_unit
+- action_finished_unit_units
+- action_finished_unit_city
+- action_finished_unit_tile
+- action_finished_unit_extras
+- action_finished_unit_self
+
+Typical workflow
+----------------
+
+1. Start the server from the source tree so it can see this ruleset
+   directory, or point `FREECIV_DATA_PATH` at this source tree's
+   `data/` directory.
+2. In the server console run:
+
+   read data/default.serv
+   rulesetdir classic_actionlog
+   set saveturns 1
+   set autosaves TURN|GAMEOVER|INTERRUPT
+
+3. Redirect stdout/stderr to a logfile or use `tee`.
+4. Grep for `^ACTLOG` to extract only the action lines.
+
+Example
+-------
+
+From the Freeciv source tree:
+
+  ./server/freeciv-server 2>&1 | tee /tmp/freeciv-actionlog.log
+
+From another 3.2 build:
+
+  FREECIV_DATA_PATH=/home/ubuntu/freeciv_test/freeciv/data \
+    /path/to/freeciv-server --ruleset classic_actionlog 2>&1 \
+    | tee /tmp/freeciv-actionlog.log
+
+Then in the server console:
+
+  read data/default.serv
+  rulesetdir classic_actionlog
+  set xsize 32
+  set ysize 20
+  set aifill 2
+  start
+
+Extract action lines:
+
+  rg '^ACTLOG' /tmp/freeciv-actionlog.log > /tmp/freeciv-actionlog.tsv
+
+Notes
+-----
+
+- This does not log the builtin AI's internal search or candidate actions.
+  It only logs actions and state-changing events that actually occurred.
+- Savegames still complement the logs. Use both if you want state snapshots
+  plus executed actions.

@@ -1,0 +1,70 @@
+[nation_nation1]
+
+name=_("People1")
+plural=_("?plural:People1")
+groups="Nation1"
+legend=_("This is the only nation you can select.\
+")
+
+leaders = {
+ "name",                "sex"
+ "Linus Torvalds",      "Male"
+ "Richard Stallman",    "Male"
+ "Dennis Ritchie",      "Male"
+ "Ken Thompson",        "Male"
+ "Robert Pike",         "Male"
+ "Donald Knuth",        "Male"
+ "Ada Lovelace",        "Female"
+ "Grace Murray Hopper", "Female"
+ "Jean Sammet",         "Female"
+ "Barbara Liskov",      "Female"
+ "Julf",                "Male" ; Johan Helsingius
+ "Cap'n Crunch",        "Male" ; John Draper
+ "Condor",              "Male" ; Kevin Mitnick
+ "Dark Dante",          "Male" ; Kevin Poulsen
+ "Phiber Optik",        "Male" ; Mark Abene
+ "rtm",                 "Male" ; Robert Morris
+ "Woz",                 "Male" ; Steve Wozniak
+ "Edsger Dijkstra",     "Male"
+ "Alan Kay",            "Male"
+ "Bjarne Stroustrup",   "Male"
+ "Niklaus Wirth",       "Male"
+}
+
+
+flag     = "hacker"
+flag_alt = "-"
+style    = "Generic"
+
+init_techs=""
+init_buildings=""
+init_units=""
+; civilwar_nations = ""
+
+cities =
+ "Core Dump",
+ "Kernel Panic",
+ "One More Turn",
+ "Segmentation Fault",
+ "Stack Overflow",
+ "Bus Error",
+ "Divide by Zero",
+ "Buffer Underrun",
+ "Buffer Overrun",
+ "NullPointerException",
+ "Macro",
+ "Assembler",
+ "Interpreter",
+ "Compiler",
+ "Kernel",
+ "Shell",
+ "Editor",          ; Why not "Emacs" ;)
+ "Word Processor",
+ "Program Counter",
+ "Garbage Collection",
+ "Deadlock",
+ "Named Pipe",
+ "Press Any Key To Continue",
+ "Multitasking",
+ "Crontab",
+ "Type Mismatch"
