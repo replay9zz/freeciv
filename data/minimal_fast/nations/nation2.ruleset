@@ -1,0 +1,22 @@
+[nation_nation2]
+
+name=_("People2")
+plural=_("?plural:People2")
+groups="Nation2"
+legend=_("This is the only nation you can select.\
+")
+leaders = { "name", "sex"
+ "Nation2", "male"
+}
+
+flag     = "aborigines"
+flag_alt = "-"
+style    = "Generic"
+
+init_techs=""
+init_buildings=""
+init_units=""
+; civilwar_nations = ""
+
+cities =
+ "Nation2"
