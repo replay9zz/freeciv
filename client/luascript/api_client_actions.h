@@ -25,6 +25,11 @@ bool api_client_end_turn(struct lua_State *L);
 bool api_client_start_revolution(struct lua_State *L);
 bool api_client_set_government(struct lua_State *L, const char *gov_identifier);
 bool api_client_auto_settler(struct lua_State *L, int unit_id);
+bool api_client_can_unit_activity(struct lua_State *L, int unit_id,
+                                  const char *activity_name);
+int api_client_unit_activity_id(struct lua_State *L, int unit_id);
+bool api_client_unit_activity(struct lua_State *L, int unit_id,
+                              const char *activity_name);
 bool api_client_upgrade_unit(struct lua_State *L, int unit_id);
 bool api_client_attack_tile(struct lua_State *L, int unit_id,
                             int tile_index);

@@ -8,18 +8,22 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 /* common/scriptcore */
 #include "luascript.h"
 
 /* common */
 #include "city.h"
+#include "base.h"
+#include "extras.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"          /* enum direction8, DIR8_MAGIC_MAX */
 #include "player.h"
 #include "requirements.h"
 #include "tech.h"
+#include "terrain.h"
 #include "tile.h"
 #include "unit.h"
 #include "vision.h"       /* enum vision_layer, V_COUNT */
@@ -226,6 +230,160 @@ bool api_client_auto_settler(lua_State *L, int unit_id)
   }
 
   request_unit_autosettlers(punit);
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Resolve a headless-safe unit activity and, when required, its target extra.
+*****************************************************************************/
+static bool client_unit_activity_spec(struct unit *punit,
+                                      const char *activity_name,
+                                      enum unit_activity *activity,
+                                      struct extra_type **target)
+{
+  struct tile *ptile = unit_tile(punit);
+
+  *target = NULL;
+  if (strcmp(activity_name, "fortify") == 0) {
+    *activity = ACTIVITY_FORTIFYING;
+  } else if (strcmp(activity_name, "sentry") == 0) {
+    *activity = ACTIVITY_SENTRY;
+  } else if (strcmp(activity_name, "road") == 0) {
+    *activity = ACTIVITY_GEN_ROAD;
+    *target = next_extra_for_tile(ptile, EC_ROAD, unit_owner(punit), punit);
+  } else if (strcmp(activity_name, "irrigate") == 0) {
+    *activity = ACTIVITY_IRRIGATE;
+    *target = next_extra_for_tile(ptile, EC_IRRIGATION,
+                                  unit_owner(punit), punit);
+  } else if (strcmp(activity_name, "mine") == 0) {
+    *activity = ACTIVITY_MINE;
+    *target = next_extra_for_tile(ptile, EC_MINE, unit_owner(punit), punit);
+  } else if (strcmp(activity_name, "cultivate") == 0) {
+    *activity = ACTIVITY_CULTIVATE;
+  } else if (strcmp(activity_name, "plant") == 0) {
+    *activity = ACTIVITY_PLANT;
+  } else if (strcmp(activity_name, "transform") == 0) {
+    *activity = ACTIVITY_TRANSFORM;
+  } else if (strcmp(activity_name, "clean") == 0) {
+    *activity = ACTIVITY_CLEAN;
+    *target = prev_extra_in_tile(ptile, ERM_CLEAN, unit_owner(punit), punit);
+  } else if (strcmp(activity_name, "pillage") == 0) {
+    bv_extras possible;
+
+    *activity = ACTIVITY_PILLAGE;
+    BV_CLR_ALL(possible);
+    extra_type_iterate(potential) {
+      if (can_unit_do_activity_targeted_client(punit, ACTIVITY_PILLAGE,
+                                               potential)) {
+        BV_SET(possible, extra_index(potential));
+      }
+    } extra_type_iterate_end;
+    *target = get_preferred_pillage(possible);
+  } else if (strcmp(activity_name, "fortress") == 0) {
+    struct base_type *pbase = get_base_by_gui_type(BASE_GUI_FORTRESS,
+                                                   punit, ptile);
+
+    *activity = ACTIVITY_BASE;
+    *target = pbase != NULL ? base_extra_get(pbase) : NULL;
+  } else if (strcmp(activity_name, "airbase") == 0) {
+    struct base_type *pbase = get_base_by_gui_type(BASE_GUI_AIRBASE,
+                                                   punit, ptile);
+
+    *activity = ACTIVITY_BASE;
+    *target = pbase != NULL ? base_extra_get(pbase) : NULL;
+  } else {
+    return FALSE;
+  }
+
+  if ((*activity == ACTIVITY_GEN_ROAD
+       || *activity == ACTIVITY_IRRIGATE
+       || *activity == ACTIVITY_MINE
+       || *activity == ACTIVITY_CLEAN
+       || *activity == ACTIVITY_PILLAGE
+       || *activity == ACTIVITY_BASE)
+      && *target == NULL) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/*************************************************************************//**
+  Return whether a named unit activity is legal at the unit's current tile.
+*****************************************************************************/
+bool api_client_can_unit_activity(lua_State *L, int unit_id,
+                                  const char *activity_name)
+{
+  struct player *pplayer;
+  struct unit *punit;
+  enum unit_activity activity;
+  struct extra_type *target;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+  LUASCRIPT_CHECK_ARG(L, activity_name != NULL, 3,
+                      "missing activity name", FALSE);
+  punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  if (!client_unit_activity_spec(punit, activity_name, &activity, &target)) {
+    return FALSE;
+  }
+  if (target != NULL) {
+    return can_unit_do_activity_targeted_client(punit, activity, target);
+  }
+  return can_unit_do_activity_client(punit, activity);
+}
+
+/*************************************************************************//**
+  Return the unit's current activity id for headless status polling.
+*****************************************************************************/
+int api_client_unit_activity_id(lua_State *L, int unit_id)
+{
+  struct player *pplayer;
+  struct unit *punit;
+
+  LUASCRIPT_CHECK_STATE(L, -1);
+  pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", -1);
+  punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", -1);
+  return (int)punit->activity;
+}
+
+/*************************************************************************//**
+  Start a named unit activity without opening an interactive client dialog.
+*****************************************************************************/
+bool api_client_unit_activity(lua_State *L, int unit_id,
+                              const char *activity_name)
+{
+  struct player *pplayer;
+  struct unit *punit;
+  enum unit_activity activity;
+  struct extra_type *target;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  pplayer = client_player();
+  LUASCRIPT_CHECK(L, pplayer != NULL, "no client player", FALSE);
+  LUASCRIPT_CHECK_ARG(L, activity_name != NULL, 3,
+                      "missing activity name", FALSE);
+  punit = player_unit_by_number(pplayer, unit_id);
+  LUASCRIPT_CHECK_ARG(L, punit != NULL, 2, "unknown unit id", FALSE);
+
+  if (!client_unit_activity_spec(punit, activity_name, &activity, &target)) {
+    return FALSE;
+  }
+  if (target != NULL) {
+    if (!can_unit_do_activity_targeted_client(punit, activity, target)) {
+      return FALSE;
+    }
+    request_new_unit_activity_targeted(punit, activity, target);
+  } else {
+    if (!can_unit_do_activity_client(punit, activity)) {
+      return FALSE;
+    }
+    request_new_unit_activity(punit, activity);
+  }
   return TRUE;
 }
 
