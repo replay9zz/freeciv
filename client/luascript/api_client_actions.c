@@ -155,6 +155,77 @@ bool api_client_queue_city_production(lua_State *L, int city_id,
 }
 
 /*************************************************************************//**
+  Return the effective shield cost of a production target in a city.
+*****************************************************************************/
+int api_client_city_production_cost(lua_State *L, int city_id,
+                                    const char *kind,
+                                    const char *rule_name)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+
+  const char *type = (kind && kind[0]) ? kind : "UnitType";
+  LUASCRIPT_CHECK_ARG(L, rule_name != NULL && rule_name[0] != '\0', 3,
+                      "missing rule name", -1);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", -1);
+
+  struct universal target = universal_by_rule_name(type, rule_name);
+  LUASCRIPT_CHECK(L, target.kind != VUT_NONE, "invalid production target", -1);
+
+  return universal_build_shield_cost(pcity, &target);
+}
+
+/*************************************************************************//**
+  Return turns required for a production target at the city's current output.
+*****************************************************************************/
+int api_client_city_production_turns(lua_State *L, int city_id,
+                                     const char *kind,
+                                     const char *rule_name,
+                                     bool include_shield_stock)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+
+  const char *type = (kind && kind[0]) ? kind : "UnitType";
+  LUASCRIPT_CHECK_ARG(L, rule_name != NULL && rule_name[0] != '\0', 3,
+                      "missing rule name", -1);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", -1);
+
+  struct universal target = universal_by_rule_name(type, rule_name);
+  LUASCRIPT_CHECK(L, target.kind != VUT_NONE, "invalid production target", -1);
+
+  return city_turns_to_build(pcity, &target, include_shield_stock);
+}
+
+/*************************************************************************//**
+  Return shields already accumulated by a city.
+*****************************************************************************/
+int api_client_city_shield_stock(lua_State *L, int city_id)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", -1);
+
+  return pcity->shield_stock;
+}
+
+/*************************************************************************//**
+  Return the city's final shield surplus for the current turn.
+*****************************************************************************/
+int api_client_city_shield_surplus(lua_State *L, int city_id)
+{
+  LUASCRIPT_CHECK_STATE(L, -1);
+
+  struct city *pcity = game_city_by_number(city_id);
+  LUASCRIPT_CHECK_ARG(L, pcity != NULL, 2, "unknown city id", -1);
+
+  return pcity->surplus[O_SHIELD];
+}
+
+/*************************************************************************//**
   End current player's turn.
 *****************************************************************************/
 bool api_client_end_turn(lua_State *L)

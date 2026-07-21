@@ -21,6 +21,15 @@ bool api_client_queue_city_production(struct lua_State *L, int city_id,
                                       const char *kind,
                                       const char *rule_name,
                                       int position);
+int api_client_city_production_cost(struct lua_State *L, int city_id,
+                                    const char *kind,
+                                    const char *rule_name);
+int api_client_city_production_turns(struct lua_State *L, int city_id,
+                                     const char *kind,
+                                     const char *rule_name,
+                                     bool include_shield_stock);
+int api_client_city_shield_stock(struct lua_State *L, int city_id);
+int api_client_city_shield_surplus(struct lua_State *L, int city_id);
 bool api_client_end_turn(struct lua_State *L);
 bool api_client_start_revolution(struct lua_State *L);
 bool api_client_set_government(struct lua_State *L, const char *gov_identifier);

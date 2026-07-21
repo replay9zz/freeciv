@@ -50,6 +50,14 @@ module client {
     @ set_city_production (lua_State *L, int city_id, const char *kind, const char *rule_name);
   bool api_client_queue_city_production
     @ queue_city_production (lua_State *L, int city_id, const char *kind, const char *rule_name, int position);
+  int api_client_city_production_cost
+    @ city_production_cost (lua_State *L, int city_id, const char *kind, const char *rule_name);
+  int api_client_city_production_turns
+    @ city_production_turns (lua_State *L, int city_id, const char *kind, const char *rule_name, bool include_shield_stock);
+  int api_client_city_shield_stock
+    @ city_shield_stock (lua_State *L, int city_id);
+  int api_client_city_shield_surplus
+    @ city_shield_surplus (lua_State *L, int city_id);
   bool api_client_end_turn
     @ end_turn (lua_State *L);
   bool api_client_start_revolution
